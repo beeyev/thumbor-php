@@ -28,13 +28,9 @@ php artisan vendor:publish --provider="Beeyev\Thumbor\Adapters\Laravel\ThumborSe
 ```php
 use Beeyev\Thumbor\Thumbor;
 
-class SomeController extends Controller
+public function someMethod(Thumbor $thumbor)
 {
-    public function __invoke(Thumbor $thumbor)
-    {
-        $result = $thumbor->resize(200,500)->get('http://seriouscat.com/serious_cat.jpg');
-        return $result;
-    }
+    $result = $thumbor->resize(200,500)->get('http://seriouscat.com/serious_cat.jpg');
 }
 ```
 
@@ -43,16 +39,12 @@ class SomeController extends Controller
 use Beeyev\Thumbor\Manipulations\Fit;
 use Beeyev\Thumbor\Manipulations\Trim;
 
-class SomeController extends Controller
+public function someMethod()
 {
-    public function __invoke()
-    {
-        $result = \Thumbor::resizeWidth(500)
-            ->fit(Fit::FIT_IN)
-            ->trim(Trim::BOTTOM_RIGHT)
-            ->get('http://seriouscat.com/serious_cat.jpg');
-        return $result;
-    }
+    $result = \Thumbor::resizeWidth(500)
+        ->fit(Fit::FIT_IN)
+        ->trim(Trim::BOTTOM_RIGHT)
+        ->get('http://seriouscat.com/serious_cat.jpg');
 }
 ```
 
@@ -61,18 +53,16 @@ class SomeController extends Controller
 use Beeyev\Thumbor\Thumbor;
 use Beeyev\Thumbor\Manipulations\Resize;
 
-class SomeClass
+public function someMethod()
 {
-    public function SomeMethod()
-    {
-        $thumbor = new Thumbor('https://thumbor.findtheinvisiblecow.com/', 'secretKey555');
-        $thumbor->addFilter('strip_icc');
-        $thumbor->addFilter('blur', 1);
-        $thumbor->resize(500, Resize::ORIG);
-        $thumbor->smartCropEnable();
-        $thumbor->imageUrl('http://seriouscat.com/serious_cat.jpg');
-        return $thumbor->get();
-    }
+    $thumbor = new Thumbor('https://thumbor.findtheinvisiblecow.com/', 'secretKey555');
+    $thumbor->addFilter('strip_icc');
+    $thumbor->addFilter('blur', 1);
+    $thumbor->resize(500, Resize::ORIG);
+    $thumbor->smartCropEnable();
+    $thumbor->imageUrl('http://seriouscat.com/serious_cat.jpg');
+
+    return $thumbor->get();
 }
 ```
 
