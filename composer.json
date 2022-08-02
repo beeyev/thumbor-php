@@ -1,10 +1,10 @@
 {
     "name": "beeyev/thumbor-php",
     "description": "Thumbor library for PHP",
+    "license": "MIT",
     "keywords": [
         "Thumbor"
     ],
-    "homepage": "https://github.com/beeyev/thumbor-php",
     "authors": [
         {
             "name": "Alexander Tebiev",
@@ -13,34 +13,34 @@
             "role": "Developer"
         }
     ],
-    "license": "MIT",
+    "homepage": "https://github.com/beeyev/thumbor-php",
     "require": {
-        "php": "^7.4||^8.0"
+        "php": "^7.4 || ^8.0"
     },
-    "extra": {
-        "laravel": {
-            "providers": [
-                "Beeyev\\Thumbor\\Adapters\\Laravel\\ThumborServiceProvider"
-            ],
-            "aliases": {
-                "Thumbor": "Beeyev\\Thumbor\\Adapters\\Laravel\\Facades\\ThumborFacade"
-            }
-        }
+    "require-dev": {
+        "pestphp/pest": "^1.21"
     },
-    "config": {
-        "sort-packages": true,
-        "allow-plugins": {
-            "pestphp/pest-plugin": true
-        }
-    },
+    "minimum-stability": "stable",
+    "prefer-stable": true,
     "autoload": {
         "psr-4": {
             "Beeyev\\Thumbor\\": "src/"
         }
     },
-    "minimum-stability": "stable",
-    "prefer-stable": true,
-    "require-dev": {
-        "pestphp/pest": "^1.21"
+    "config": {
+        "allow-plugins": {
+            "pestphp/pest-plugin": true
+        },
+        "sort-packages": true
+    },
+    "extra": {
+        "laravel": {
+            "aliases": {
+                "Thumbor": "Beeyev\\Thumbor\\Adapters\\Laravel\\Facades\\ThumborFacade"
+            },
+            "providers": [
+                "Beeyev\\Thumbor\\Adapters\\Laravel\\ThumborServiceProvider"
+            ]
+        }
     }
 }
