@@ -27,7 +27,7 @@ class ThumborServiceProvider extends ServiceProvider implements DeferrableProvid
     public function register(): void
     {
         $this->app->singleton(Thumbor::class, function() {
-            return new Thumbor(config('thumbor.security_key'), config('thumbor.base_url'));
+            return new Thumbor(config('thumbor.base_url'), config('thumbor.security_key'));
         });
     }
 
