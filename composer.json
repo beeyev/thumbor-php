@@ -15,10 +15,14 @@
     ],
     "homepage": "https://github.com/beeyev/thumbor-php",
     "require": {
-        "php": "^7.4 || ^8.0"
+        "php": "^7.0 || ^8.0"
     },
     "require-dev": {
-        "pestphp/pest": "^1.21"
+        "php": "^7.2 || ^8.0",
+        "friendsofphp/php-cs-fixer": "~2.19",
+        "phpstan/phpstan": "^1.10",
+        "phpunit/phpunit": "^7.5 || ^8.5 || ^9.5",
+        "rector/rector": "^0.16.0"
     },
     "minimum-stability": "stable",
     "prefer-stable": true,

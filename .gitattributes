@@ -1,1 +1,4 @@
 * text=auto eol=lf
+/.github        export-ignore
+/.editorconfig  export-ignore
+/.gitignore     export-ignore
