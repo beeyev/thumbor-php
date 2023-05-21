@@ -10,4 +10,4 @@ stan: ## Execute PHPStan
 	phpstan analyse --configuration=phpstan.neon.dist --memory-limit=1G
 
 cs: ## Execute PHP CS Fixer
-	php-cs-fixer fix --diff --verbose
+	php-cs-fixer fix --diff --verbose --using-cache=yes --cache-file=.php-cs-fixer.cache
