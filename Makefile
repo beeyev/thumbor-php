@@ -11,3 +11,7 @@ stan: ## Execute PHPStan
 
 cs: ## Execute PHP CS Fixer
 	php-cs-fixer fix --diff --verbose --using-cache=yes --cache-file=.php-cs-fixer.cache
+
+test: ## Execute PHPUnit
+	phpunit --testdox
+

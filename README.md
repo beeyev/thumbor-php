@@ -49,6 +49,7 @@ public function someMethod()
 ```
 
 #### Some more framework-agnostic examples
+
 ```php
 use Beeyev\Thumbor\Thumbor;
 use Beeyev\Thumbor\Manipulations\Resize;

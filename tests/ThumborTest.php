@@ -58,4 +58,12 @@ class ThumborTest extends TestCase
         $this->expectException(ThumborInvalidArgumentException::class);
         $thumbor->securityKey(new \stdClass());
     }
+
+    /** @test */
+    public function it_checks_if_imageUrl_is_set()
+    {
+        $thumbor = new Thumbor();
+        $thumbor->imageUrl('/yozhik.jpg');
+        $this->assertEquals('yozhik.jpg', $thumbor->getImageUrl());
+    }
 }
