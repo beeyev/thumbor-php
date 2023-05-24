@@ -111,17 +111,19 @@ class Thumbor
      *
      * @see https://thumbor.readthedocs.io/en/latest/usage.html#trim
      *
-     * @param Trim::*|null $colorSource Possible values are Trim::TOP_LEFT, Trim::BOTTOM_RIGHT
-     * @param int<0, 422>|null $tolerance range between 0-442
-     *
-     * @return $this
+     * @param Trim::TOP_LEFT|Trim::BOTTOM_RIGHT $colorSource Possible values are Trim::TOP_LEFT, Trim::BOTTOM_RIGHT
+     * @param int<Trim::TOLEARNCE_MIN, Trim::TOLEARNCE_MAX>|null $tolerance range between Trim::TOLEARNCE_MIN - Trim::TOLEARNCE_MAX
      *
      * @throws ThumborInvalidArgumentException
      */
     public function trim(string $colorSource = null, int $tolerance = null): self
     {
-        if (!in_array($colorSource, [Trim::TOP_LEFT, Trim::BOTTOM_RIGHT], true)) {
+        if ($colorSource !== null && (!in_array($colorSource, [Trim::TOP_LEFT, Trim::BOTTOM_RIGHT], true))) {
             throw new ThumborInvalidArgumentException('Incorrect value `$colorSource` provided, given value is: ' . $colorSource);
+        }
+        /* @phpstan-ignore-next-line */
+        if ($tolerance !== null && ($tolerance < Trim::TOLEARNCE_MIN || $tolerance > Trim::TOLEARNCE_MAX)) {
+            throw new ThumborInvalidArgumentException('`$tolerance` value should be between ' . Trim::TOLEARNCE_MIN . ' and ' . Trim::TOLEARNCE_MAX . ', given value is: ' . $tolerance);
         }
         $this->trim = implode(':', array_filter(['trim', $colorSource, $tolerance]));
 
@@ -130,8 +132,6 @@ class Thumbor
 
     /**
      * Removes trim parameters.
-     *
-     * @return $this
      */
     public function noTrim(): self
     {
@@ -149,11 +149,27 @@ class Thumbor
      *
      * @see https://thumbor.readthedocs.io/en/latest/usage.html#manual-crop
      *
-     * @return $this
+     * @param int<0, max> $topLeftX
+     * @param int<0, max> $topLeftY
+     * @param int<0, max> $bottomRightX
+     * @param int<0, max> $bottomRightY
      */
     public function crop(int $topLeftX, int $topLeftY, int $bottomRightX, int $bottomRightY): self
     {
+        if (min([$topLeftX, $topLeftY, $bottomRightX, $bottomRightY]) < 0) {
+            throw new ThumborInvalidArgumentException("One or more of the provided integer values are negative! Provided values: topLeftX - `{$topLeftX}`, topLeftY - `{$topLeftY}`, bottomRightX - `{$bottomRightX}`, bottomRightY - `{$bottomRightY}`");
+        }
         $this->crop = "{$topLeftX}x{$topLeftY}:{$bottomRightX}x{$bottomRightY}";
+
+        return $this;
+    }
+
+    /**
+     * Removes crop parameters.
+     */
+    public function noCrop(): self
+    {
+        $this->crop = null;
 
         return $this;
     }
@@ -181,7 +197,32 @@ class Thumbor
      */
     public function resizeOrFit($width = null, $height = null, string $fit = null): Thumbor
     {
-        $this->resizeOrFit = ($fit ? '' : "{$fit}/") . implode('x', [$this->width, $this->height]);
+        $validatedValues = [$width, $height];
+        if (implode($validatedValues) === '') {
+            throw new ThumborInvalidArgumentException('At least one value `$width` or `$height` should be defined!');
+        }
+
+        array_map(static function ($value) {
+            if ($value !== null && !is_int($value) && $value !== Resize::ORIG) {
+                throw new ThumborInvalidArgumentException('On of the arguments provided contains incorrect value! Given value: ' . $value);
+            }
+        }, $validatedValues);
+
+        if ($fit !== null && (!in_array($fit, [Fit::FIT_IN, Fit::FULL_FIT_IN, Fit::ADAPTIVE_FIT_IN, Fit::ADAPTIVE_FULL_FIT_IN], true))) {
+            throw new ThumborInvalidArgumentException('Incorrect value `$fit` provided, given value is: ' . $fit);
+        }
+
+        $this->resizeOrFit = ($fit ? "{$fit}/" : '') . implode('x', [$width, $height]);
+
+        return $this;
+    }
+
+    /**
+     * Removes ResizeOrFit parameters.
+     */
+    public function noResizeOrFit(): self
+    {
+        $this->resizeOrFit = null;
 
         return $this;
     }
@@ -225,4 +266,9 @@ class Thumbor
 
         return implode('/', array_filter([$this->getBaseUrl(), $signature, $urlWithoutBase]));
     }
+
+//    public function abc()
+//    {
+//        $this->trim('top-left', 200);
+//    }
 }
