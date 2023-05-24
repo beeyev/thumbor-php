@@ -9,26 +9,28 @@ use Beeyev\Thumbor\Manipulations\Halign;
 use Beeyev\Thumbor\Thumbor;
 use PHPUnit\Framework\TestCase;
 
-class HalignTest extends TestCase
+/**
+ * @internal
+ * @coversNothing
+ */
+final class HalignTest extends TestCase
 {
-    /** @test */
-    public function it_checks_if_halign_is_working_correctly()
+    public function testItChecksIfHalignIsWorkingCorrectly()
     {
         $result = (new Thumbor())->halign(Halign::LEFT)->get('abc.jpg');
-        $this->assertEquals('unsafe/left/abc.jpg', $result);
+        static::assertSame('unsafe/left/abc.jpg', $result);
 
         $result = (new Thumbor())->halign(Halign::CENTER)->get('abc.jpg');
-        $this->assertEquals('unsafe/center/abc.jpg', $result);
+        static::assertSame('unsafe/center/abc.jpg', $result);
 
         $result = (new Thumbor())->halign(Halign::RIGHT)->get('abc.jpg');
-        $this->assertEquals('unsafe/right/abc.jpg', $result);
+        static::assertSame('unsafe/right/abc.jpg', $result);
 
         $result = (new Thumbor())->halign(Halign::RIGHT)->noHalign()->get('abc.jpg');
-        $this->assertEquals('unsafe/abc.jpg', $result);
+        static::assertSame('unsafe/abc.jpg', $result);
     }
 
-    /** @test */
-    public function it_checks_if_halign_is_throwing_exception()
+    public function testItChecksIfHalignIsThrowingException()
     {
         $this->expectException(ThumborInvalidArgumentException::class);
         $this->expectExceptionMessageMatches('/Incorrect value/');

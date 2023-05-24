@@ -73,7 +73,7 @@ class Thumbor
     }
 
     /**
-     * @param string|int|null $securityKey
+     * @param int|string|null $securityKey
      *
      * @throws ThumborInvalidArgumentException
      */
@@ -147,8 +147,8 @@ class Thumbor
      *
      * @see https://thumbor.readthedocs.io/en/latest/usage.html#trim
      *
-     * @param Trim::TOP_LEFT|Trim::BOTTOM_RIGHT $colorSource Possible values are Trim::TOP_LEFT, Trim::BOTTOM_RIGHT
-     * @param int<Trim::TOLEARNCE_MIN, Trim::TOLEARNCE_MAX>|null $tolerance range between Trim::TOLEARNCE_MIN - Trim::TOLEARNCE_MAX
+     * @param Trim::BOTTOM_RIGHT|Trim::TOP_LEFT                  $colorSource Possible values are Trim::TOP_LEFT, Trim::BOTTOM_RIGHT
+     * @param int<Trim::TOLEARNCE_MIN, Trim::TOLEARNCE_MAX>|null $tolerance   range between Trim::TOLEARNCE_MIN - Trim::TOLEARNCE_MAX
      *
      * @throws ThumborInvalidArgumentException
      */
@@ -228,14 +228,14 @@ class Thumbor
      * `->resize(320, 220, Fit::FIT_IN)`
      * @see https://thumbor.readthedocs.io/en/latest/usage.html#fit-in
      *
-     * @param Resize::ORIG|int|null $width Possible values are Resize::ORIG, positive or negative integer, null
-     * @param Resize::ORIG|int|null $height Possible values are Resize::ORIG, positive or negative integer, null
-     * @param Fit::*|null $fit Possible values are Fit::FIT_IN, Fit::FULL_FIT_IN, Fit::ADAPTIVE_FIT_IN, Fit::ADAPTIVE_FULL_FIT_IN
+     * @param int|Resize::ORIG|null $width  Possible values are Resize::ORIG, positive or negative integer, null
+     * @param int|Resize::ORIG|null $height Possible values are Resize::ORIG, positive or negative integer, null
+     * @param Fit::*|null           $fit    Possible values are Fit::FIT_IN, Fit::FULL_FIT_IN, Fit::ADAPTIVE_FIT_IN, Fit::ADAPTIVE_FULL_FIT_IN
      */
-    public function resizeOrFit($width = null, $height = null, string $fit = null): Thumbor
+    public function resizeOrFit($width = null, $height = null, string $fit = null): self
     {
         $validatedValues = [$width, $height];
-        if (implode($validatedValues) === '') {
+        if (implode('', $validatedValues) === '') {
             throw new ThumborInvalidArgumentException('At least one value `$width` or `$height` should be defined!');
         }
 
@@ -353,7 +353,7 @@ class Thumbor
      * @see https://thumbor.readthedocs.io/en/latest/usage.html#filters
      * @see https://thumbor.readthedocs.io/en/latest/filters.html
      *
-     * @param string|int|null ...$args
+     * @param int|string|null ...$args
      */
     public function addFilter(string $filterName, ...$args): self
     {
@@ -415,7 +415,9 @@ class Thumbor
             $this->filter,
         ];
 
-        $manipulations = array_filter($manipulations, static function ($var) {return $var !== null; });
+        $manipulations = array_filter($manipulations, static function ($var) {
+            return $var !== null;
+        });
         $manipulations = implode('/', $manipulations);
 
         $urlWithoutBase = implode('/', array_filter([$manipulations, $this->getImageUrl()]));

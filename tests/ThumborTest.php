@@ -9,26 +9,27 @@ use Beeyev\Thumbor\Exceptions\ThumborInvalidArgumentException;
 use Beeyev\Thumbor\Thumbor;
 use PHPUnit\Framework\TestCase;
 
-class ThumborTest extends TestCase
+/**
+ * @internal
+ * @coversNothing
+ */
+final class ThumborTest extends TestCase
 {
-    /** @test */
-    public function it_checks_if_baseUrl_accepts_string()
+    public function testItChecksIfBaseUrlAcceptsString()
     {
         $thumbor = new Thumbor();
         $thumbor->baseUrl('http://seriouscat.com/');
-        $this->assertEquals('http://seriouscat.com', $thumbor->getBaseUrl());
+        static::assertSame('http://seriouscat.com', $thumbor->getBaseUrl());
     }
 
-    /** @test */
-    public function it_checks_if_baseUrl_accepts_null()
+    public function testItChecksIfBaseUrlAcceptsNull()
     {
         $thumbor = new Thumbor();
         $thumbor->baseUrl(null);
-        $this->assertEquals(null, $thumbor->getBaseUrl());
+        static::assertNull($thumbor->getBaseUrl());
     }
 
-    /** @test */
-    public function it_checks_if_baseUrl_throws_exception()
+    public function testItChecksIfBaseUrlThrowsException()
     {
         $thumbor = new Thumbor();
         $this->expectException(ThumborInvalidArgumentException::class);
@@ -36,25 +37,22 @@ class ThumborTest extends TestCase
         $thumbor->baseUrl(new \stdClass());
     }
 
-    /** @test */
-    public function it_checks_if_securityKey_accepts_string()
+    public function testItChecksIfSecurityKeyAcceptsString()
     {
         $securityKey = '31337';
         $thumbor = new Thumbor();
         $thumbor->securityKey($securityKey);
-        $this->assertEquals($securityKey, $thumbor->getSecurityKey());
+        static::assertSame($securityKey, $thumbor->getSecurityKey());
     }
 
-    /** @test */
-    public function it_checks_if_securityKey_accepts_null()
+    public function testItChecksIfSecurityKeyAcceptsNull()
     {
         $thumbor = new Thumbor();
         $thumbor->securityKey(null);
-        $this->assertEquals(null, $thumbor->getSecurityKey());
+        static::assertNull($thumbor->getSecurityKey());
     }
 
-    /** @test */
-    public function it_checks_if_securityKey_throws_exception()
+    public function testItChecksIfSecurityKeyThrowsException()
     {
         $thumbor = new Thumbor();
         $this->expectException(ThumborInvalidArgumentException::class);
@@ -62,12 +60,11 @@ class ThumborTest extends TestCase
         $thumbor->securityKey(new \stdClass());
     }
 
-    /** @test */
-    public function it_checks_if_imageUrl_is_set()
+    public function testItChecksIfImageUrlIsSet()
     {
         $thumbor = new Thumbor();
         $thumbor->imageUrl('/yozhik.jpg');
-        $this->assertEquals('yozhik.jpg', $thumbor->getImageUrl());
+        static::assertSame('yozhik.jpg', $thumbor->getImageUrl());
     }
 
     public function it_checks_if_exception_is_thrown_when_imageUrl_is_not_set()
