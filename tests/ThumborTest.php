@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Beeyev\Thumbor\Test;
 
+use Beeyev\Thumbor\Exceptions\ThumborException;
 use Beeyev\Thumbor\Exceptions\ThumborInvalidArgumentException;
 use Beeyev\Thumbor\Thumbor;
 use PHPUnit\Framework\TestCase;
@@ -31,6 +32,7 @@ class ThumborTest extends TestCase
     {
         $thumbor = new Thumbor();
         $this->expectException(ThumborInvalidArgumentException::class);
+        $this->expectExceptionMessageMatches('/is not a string or NULL/');
         $thumbor->baseUrl(new \stdClass());
     }
 
@@ -56,6 +58,7 @@ class ThumborTest extends TestCase
     {
         $thumbor = new Thumbor();
         $this->expectException(ThumborInvalidArgumentException::class);
+        $this->expectExceptionMessageMatches('/string, integer or NULL/');
         $thumbor->securityKey(new \stdClass());
     }
 
@@ -65,5 +68,13 @@ class ThumborTest extends TestCase
         $thumbor = new Thumbor();
         $thumbor->imageUrl('/yozhik.jpg');
         $this->assertEquals('yozhik.jpg', $thumbor->getImageUrl());
+    }
+
+    public function it_checks_if_exception_is_thrown_when_imageUrl_is_not_set()
+    {
+        $thumbor = new Thumbor();
+        $this->expectException(ThumborException::class);
+        $this->expectExceptionMessage('Source image URL was not set.');
+        $thumbor->get();
     }
 }

@@ -4,6 +4,11 @@ declare(strict_types=1);
 
 namespace Beeyev\Thumbor\Manipulations;
 
+/**
+ * Fit.
+ *
+ * @see \Beeyev\Thumbor\Thumbor::noResizeOrFit()
+ */
 class Fit
 {
     const FIT_IN = 'fit-in';

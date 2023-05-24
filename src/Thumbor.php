@@ -7,10 +7,11 @@ namespace Beeyev\Thumbor;
 use Beeyev\Thumbor\Exceptions\ThumborException;
 use Beeyev\Thumbor\Exceptions\ThumborInvalidArgumentException;
 use Beeyev\Thumbor\Manipulations\Fit;
+use Beeyev\Thumbor\Manipulations\Halign;
 use Beeyev\Thumbor\Manipulations\Resize;
 use Beeyev\Thumbor\Manipulations\Trim;
+use Beeyev\Thumbor\Manipulations\Valign;
 use Beeyev\Thumbor\Support\Security;
-use Beeyev\Thumbor\Support\Validator;
 
 class Thumbor
 {
@@ -22,13 +23,24 @@ class Thumbor
 
     /** @var string|null */
     protected $sourceImageUrl;
-
+    /** @var string|null */
+    protected $metadataOnly;
     /** @var string|null */
     protected $trim;
     /** @var string|null */
     protected $crop;
     /** @var string|null */
     protected $resizeOrFit;
+    /** @var string|null */
+    protected $halign;
+    /** @var string|null */
+    protected $valign;
+    /** @var string|null */
+    protected $smartCrop;
+    /** @var string|null */
+    protected $filter;
+    /** @var array<string, string> */
+    protected $filtersCollection = [];
 
     public function __construct(string $baseUrl = null, string $securityKey = null)
     {
@@ -43,8 +55,9 @@ class Thumbor
      */
     public function baseUrl($baseUrl): self
     {
-        if (Validator::canBeString($baseUrl) === false) {
-            throw new ThumborInvalidArgumentException('Provided value for `$baseUrl` can not be automatically casted to string!');
+        /* @phpstan-ignore-next-line */
+        if ($baseUrl !== null && !is_string($baseUrl)) {
+            throw new ThumborInvalidArgumentException('Provided value for `$baseUrl` is not a string or NULL!');
         }
         $this->baseUrl = $baseUrl === null ? null : rtrim($baseUrl, '/');
 
@@ -60,14 +73,15 @@ class Thumbor
     }
 
     /**
-     * @param string|null $securityKey
+     * @param string|int|null $securityKey
      *
      * @throws ThumborInvalidArgumentException
      */
     public function securityKey($securityKey): self
     {
-        if (Validator::canBeString($securityKey) === false) {
-            throw new ThumborInvalidArgumentException('Provided value for `$securityKey` can not be automatically casted to string!');
+        /* @phpstan-ignore-next-line */
+        if ($securityKey !== null && !is_string($securityKey) && !is_int($securityKey)) {
+            throw new ThumborInvalidArgumentException('Provided value for `$securityKey` is not a string, integer or NULL!');
         }
         $this->securityKey = $securityKey === null ? null : (string) $securityKey;
 
@@ -95,6 +109,28 @@ class Thumbor
     public function getImageUrl()
     {
         return $this->sourceImageUrl;
+    }
+
+    /**
+     * Metadata
+     *
+     * Specify that JSON metadata should be returned instead of the image.
+     */
+    public function metadataOnly(): self
+    {
+        $this->metadataOnly = 'meta';
+
+        return $this;
+    }
+
+    /**
+     * Removes Metadata.
+     */
+    public function noMetadataOnly(): self
+    {
+        $this->metadataOnly = null;
+
+        return $this;
     }
 
     /**
@@ -156,6 +192,7 @@ class Thumbor
      */
     public function crop(int $topLeftX, int $topLeftY, int $bottomRightX, int $bottomRightY): self
     {
+        /* @phpstan-ignore-next-line */
         if (min([$topLeftX, $topLeftY, $bottomRightX, $bottomRightY]) < 0) {
             throw new ThumborInvalidArgumentException("One or more of the provided integer values are negative! Provided values: topLeftX - `{$topLeftX}`, topLeftY - `{$topLeftY}`, bottomRightX - `{$bottomRightX}`, bottomRightY - `{$bottomRightY}`");
         }
@@ -203,8 +240,9 @@ class Thumbor
         }
 
         array_map(static function ($value) {
+            /* @phpstan-ignore-next-line */
             if ($value !== null && !is_int($value) && $value !== Resize::ORIG) {
-                throw new ThumborInvalidArgumentException('On of the arguments provided contains incorrect value! Given value: ' . $value);
+                throw new ThumborInvalidArgumentException('One of provided arguments contain incorrect value! Given value: ' . $value);
             }
         }, $validatedValues);
 
@@ -228,13 +266,128 @@ class Thumbor
     }
 
     /**
+     * Horizontal Align
+     * Specify horizontal alignment used if width is altered due to cropping.
+     *
+     * @see https://thumbor.readthedocs.io/en/latest/usage.html#horizontal-align
+     *
+     * @param Halign::* $halign possible values are Halign::LEFT, Halign::CENTER, Halign::RIGHT
+     */
+    public function halign(string $halign): self
+    {
+        if (!in_array($halign, [Halign::LEFT, Halign::CENTER, Halign::RIGHT], true)) {
+            throw new ThumborInvalidArgumentException('Incorrect value `$halign` provided, given value is: ' . $halign);
+        }
+        $this->halign = $halign;
+
+        return $this;
+    }
+
+    /**
+     * Removes Horizontal Align.
+     */
+    public function noHalign(): self
+    {
+        $this->halign = null;
+
+        return $this;
+    }
+
+    /**
+     * Vertical Align
+     * Specify vertical alignment used if height is altered due to cropping.
+     *
+     * @see https://thumbor.readthedocs.io/en/latest/usage.html#vertical-align
+     *
+     * @param Valign::* $valign possible values are Valign::TOP, Valign::MIDDLE, Valign::BOTTOM
+     */
+    public function valign(string $valign): self
+    {
+        if (!in_array($valign, [Valign::TOP, Valign::MIDDLE, Valign::BOTTOM], true)) {
+            throw new ThumborInvalidArgumentException('Incorrect value `$halign` provided, given value is: ' . $valign);
+        }
+        $this->valign = $valign;
+
+        return $this;
+    }
+
+    /**
+     * Removes Vertical Align.
+     */
+    public function noValign(): self
+    {
+        $this->valign = null;
+
+        return $this;
+    }
+
+    /**
+     * Smart Crop.
+     *
+     * Enables cropping (overrides halign/valign).
+     *
+     * @see https://thumbor.readthedocs.io/en/latest/usage.html#smart-cropping
+     */
+    public function smartCrop(): self
+    {
+        $this->smartCrop = 'smart';
+
+        return $this;
+    }
+
+    /**
+     * Removes Smart Crop.
+     */
+    public function noSmartCrop(): self
+    {
+        $this->smartCrop = null;
+
+        return $this;
+    }
+
+    /**
+     * Filters
+     *
+     * Add a filter, e.g. `->addFilter('round_corner', '20%7C20',0,0,0)->addFilter('cover')->addFilter('blur', 7)`.
+     *
+     * @see https://thumbor.readthedocs.io/en/latest/usage.html#filters
+     * @see https://thumbor.readthedocs.io/en/latest/filters.html
+     *
+     * @param string|int|null ...$args
+     */
+    public function addFilter(string $filterName, ...$args): self
+    {
+        array_map(static function ($value) {
+            /* @phpstan-ignore-next-line */
+            if ($value !== null && !is_int($value) && !is_string($value)) {
+                throw new ThumborInvalidArgumentException('One of provided arguments contain incorrect value! Given value: ' . $value);
+            }
+        }, $args);
+
+        $this->filtersCollection[$filterName] = sprintf('%s(%s)', $filterName, implode(',', $args));
+
+        $this->filter = 'filters:' . implode(':', $this->filtersCollection);
+
+        return $this;
+    }
+
+    /**
+     * Removes all filters.
+     */
+    public function noFilter(): self
+    {
+        $this->filter = null;
+        $this->filtersCollection = [];
+
+        return $this;
+    }
+
+    /**
      * Returns ready to use URL.
      *
      * @throws ThumborException
-     *
-     * @return string
      */
-    public function get(string $sourceImageUrl = null)
+    public function get(string $sourceImageUrl = null): string
     {
         if ($sourceImageUrl !== null) {
             $this->imageUrl($sourceImageUrl);
@@ -252,9 +405,14 @@ class Thumbor
             throw new ThumborException('Source image URL was not set.');
         }
         $manipulations = [
+            $this->metadataOnly,
             $this->trim,
             $this->crop,
             $this->resizeOrFit,
+            $this->halign,
+            $this->valign,
+            $this->smartCrop,
+            $this->filter,
         ];
 
         $manipulations = array_filter($manipulations, static function ($var) {return $var !== null; });
@@ -266,9 +424,4 @@ class Thumbor
 
         return implode('/', array_filter([$this->getBaseUrl(), $signature, $urlWithoutBase]));
     }
-
-//    public function abc()
-//    {
-//        $this->trim('top-left', 200);
-//    }
 }

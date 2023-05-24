@@ -39,11 +39,27 @@ class ResizeOrFitTest extends TestCase
         $this->assertEquals('unsafe/abc.jpg', $result);
     }
 
-//    /** @test */
-//    public function it_checks_if_ResizeOrFit_is_throwing_exception_about_colorSource()
-//    {
-//        $this->expectException(ThumborInvalidArgumentException::class);
-//        $this->expectExceptionMessageMatches('/One or more of the provided integer values are negative/');
-//        (new Thumbor())->crop(-1, 200, 55, 44)->get('abc.jpg');
-//    }
+    /** @test */
+    public function it_checks_if_ResizeOrFit_is_throwing_exception_when_both_arguments_null()
+    {
+        $this->expectException(ThumborInvalidArgumentException::class);
+        $this->expectExceptionMessageMatches('/At least one value/');
+        (new Thumbor())->resizeOrFit()->get('abc.jpg');
+    }
+
+    /** @test */
+    public function it_checks_if_ResizeOrFit_is_throwing_exception_when_one_argument_is_incorrect()
+    {
+        $this->expectException(ThumborInvalidArgumentException::class);
+        $this->expectExceptionMessageMatches('/One of provided arguments contain incorrect value/');
+        (new Thumbor())->resizeOrFit('abc')->get('abc.jpg');
+    }
+
+    /** @test */
+    public function it_checks_if_ResizeOrFit_is_throwing_exception_when_Fit_parameter_is_incorrect()
+    {
+        $this->expectException(ThumborInvalidArgumentException::class);
+        $this->expectExceptionMessageMatches('/Incorrect value/');
+        (new Thumbor())->resizeOrFit(100, 200, 'abc')->get('abc.jpg');
+    }
 }

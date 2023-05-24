@@ -4,6 +4,11 @@ declare(strict_types=1);
 
 namespace Beeyev\Thumbor\Manipulations;
 
+/**
+ * Trim.
+ *
+ * @see \Beeyev\Thumbor\Thumbor::trim()
+ */
 class Trim
 {
     const TOP_LEFT = 'top-left';
