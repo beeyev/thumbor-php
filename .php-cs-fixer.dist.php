@@ -26,6 +26,8 @@ return $config
         'native_function_invocation' => false,
         // PHPDoc summary should end in either a full stop, exclamation mark, or question mark.
         'phpdoc_summary' => false,
+        // `@return void` and `@return null` annotations should be omitted from PHPDoc.
+        'phpdoc_no_empty_return' => false,
     ])
     ->setFinder(
         PhpCsFixer\Finder::create()

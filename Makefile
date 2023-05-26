@@ -15,3 +15,5 @@ cs: ## Execute PHP CS Fixer
 test: ## Execute PHPUnit
 	phpunit --testdox
 
+rector: ## Execute Rector PHP
+	rector process
