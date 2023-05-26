@@ -41,5 +41,36 @@ jobs:
       - name: Check out code
         uses: actions/checkout@v3
 
-      - uses: ./.github/actions/prepare-env-variables/
-        id: prepare-build-env-variables
+#      - name: Setup tmate session
+#        uses: mxschmitt/action-tmate@v3
+
+      - name: Cache Composer dependencies
+        uses: actions/cache@v3
+        with:
+          path: |
+            /tmp/composer-cache/
+            vendor/
+          key: ${{ runner.os }}-${{ github.workflow }}-${{ hashFiles('**/composer.lock') }}
+
+      - name: Install Composer dependencies
+        uses: php-actions/composer@v6
+        with:
+          php_version: 7.0
+          version: 2.2.x
+          dev: no
+
+      - name: PHPUnit tests
+        uses: php-actions/phpunit@v3
+        with:
+          version: 7
+          php_version: 7.0
+          configuration: phpunit.xml.dist
+          #bootstrap: vendor/autoload.php'
+
+#      - uses: ./.github/actions/prepare-env-variables/
+#        id: prepare-build-env-variables
+#        with:
+#          php-version: 7.0
+#
+#      - name: Setup tmate session
+#        uses: mxschmitt/action-tmate@v3
