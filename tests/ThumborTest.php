@@ -1,7 +1,8 @@
 <?php
 
 declare(strict_types=1);
-namespace Beeyev\Thumbor\Test;
+
+namespace Beeyev\Thumbor\Tests;
 
 use Beeyev\Thumbor\Exceptions\ThumborException;
 use Beeyev\Thumbor\Exceptions\ThumborInvalidArgumentException;

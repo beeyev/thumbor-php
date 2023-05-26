@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Beeyev\Thumbor\Test\Manipulations;
+namespace Beeyev\Thumbor\Tests\Manipulations;
 
 use Beeyev\Thumbor\Exceptions\ThumborInvalidArgumentException;
 use Beeyev\Thumbor\Manipulations\Valign;
 use Beeyev\Thumbor\Thumbor;
-use Beeyev\Thumbor\Test\TestCase;
+use Beeyev\Thumbor\Tests\TestCase;
 
 /**
  * @internal

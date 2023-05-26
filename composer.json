@@ -39,7 +39,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Beeyev\\Thumbor\\Test\\": "tests/"
+            "Beeyev\\Thumbor\\Tests\\": "tests/"
         }
     },
     "config": {

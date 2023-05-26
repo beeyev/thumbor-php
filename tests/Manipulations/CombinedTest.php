@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Beeyev\Thumbor\Test\Manipulations;
+namespace Beeyev\Thumbor\Tests\Manipulations;
 
 use Beeyev\Thumbor\Manipulations\Fit;
 use Beeyev\Thumbor\Manipulations\Halign;
 use Beeyev\Thumbor\Manipulations\Trim;
 use Beeyev\Thumbor\Manipulations\Valign;
 use Beeyev\Thumbor\Thumbor;
-use Beeyev\Thumbor\Test\TestCase;
+use Beeyev\Thumbor\Tests\TestCase;
 
 /**
  * @internal

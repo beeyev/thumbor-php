@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Beeyev\Thumbor\Test\Support;
+namespace Beeyev\Thumbor\Tests\Support;
 
 use Beeyev\Thumbor\Support\Security;
-use Beeyev\Thumbor\Test\TestCase;
+use Beeyev\Thumbor\Tests\TestCase;
 
 /**
  * @internal

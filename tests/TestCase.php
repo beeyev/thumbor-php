@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Beeyev\Thumbor\Test;
+namespace Beeyev\Thumbor\Tests;
 
 use PHPUnit\Framework\TestCase as BaseTestCase;
 
