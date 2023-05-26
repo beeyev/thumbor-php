@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Beeyev\Thumbor\Test\Manipulations;
 
 use Beeyev\Thumbor\Thumbor;
-use PHPUnit\Framework\TestCase;
+use Beeyev\Thumbor\Test\TestCase;
 
 /**
  * @internal

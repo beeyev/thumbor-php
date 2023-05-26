@@ -7,7 +7,7 @@ namespace Beeyev\Thumbor\Test\Manipulations;
 use Beeyev\Thumbor\Exceptions\ThumborInvalidArgumentException;
 use Beeyev\Thumbor\Manipulations\Valign;
 use Beeyev\Thumbor\Thumbor;
-use PHPUnit\Framework\TestCase;
+use Beeyev\Thumbor\Test\TestCase;
 
 /**
  * @internal
@@ -33,7 +33,7 @@ final class ValignTest extends TestCase
     public function testItChecksIfValignIsThrowingException()
     {
         $this->expectException(ThumborInvalidArgumentException::class);
-        $this->expectExceptionMessageMatches('/Incorrect value/');
+        $this->expectExceptionMessageMatchesCase('/Incorrect value/');
         (new Thumbor())->Valign('abc')->get('abc.jpg');
     }
 }

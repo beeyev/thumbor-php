@@ -6,7 +6,6 @@ namespace Beeyev\Thumbor\Test;
 
 use Beeyev\Thumbor\Exceptions\ThumborException;
 use Beeyev\Thumbor\Thumbor;
-use PHPUnit\Framework\TestCase;
 
 /**
  * @internal

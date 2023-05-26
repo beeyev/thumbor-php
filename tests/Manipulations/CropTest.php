@@ -6,7 +6,7 @@ namespace Beeyev\Thumbor\Test\Manipulations;
 
 use Beeyev\Thumbor\Exceptions\ThumborInvalidArgumentException;
 use Beeyev\Thumbor\Thumbor;
-use PHPUnit\Framework\TestCase;
+use Beeyev\Thumbor\Test\TestCase;
 
 /**
  * @internal
@@ -26,7 +26,7 @@ final class CropTest extends TestCase
     public function testItChecksIfCropIsThrowingException()
     {
         $this->expectException(ThumborInvalidArgumentException::class);
-        $this->expectExceptionMessageMatches('/One or more of the provided integer values are negative/');
+        $this->expectExceptionMessageMatchesCase('/One or more of the provided integer values are negative/');
         (new Thumbor())->crop(-1, 200, 55, 44)->get('abc.jpg');
     }
 }

@@ -7,7 +7,7 @@ namespace Beeyev\Thumbor\Test\Manipulations;
 use Beeyev\Thumbor\Exceptions\ThumborInvalidArgumentException;
 use Beeyev\Thumbor\Manipulations\Halign;
 use Beeyev\Thumbor\Thumbor;
-use PHPUnit\Framework\TestCase;
+use Beeyev\Thumbor\Test\TestCase;
 
 /**
  * @internal
@@ -33,7 +33,7 @@ final class HalignTest extends TestCase
     public function testItChecksIfHalignIsThrowingException()
     {
         $this->expectException(ThumborInvalidArgumentException::class);
-        $this->expectExceptionMessageMatches('/Incorrect value/');
+        $this->expectExceptionMessageMatchesCase('/Incorrect value/');
         (new Thumbor())->halign('abc')->get('abc.jpg');
     }
 }

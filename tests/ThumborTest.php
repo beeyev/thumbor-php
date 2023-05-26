@@ -1,13 +1,11 @@
 <?php
 
 declare(strict_types=1);
-
 namespace Beeyev\Thumbor\Test;
 
 use Beeyev\Thumbor\Exceptions\ThumborException;
 use Beeyev\Thumbor\Exceptions\ThumborInvalidArgumentException;
 use Beeyev\Thumbor\Thumbor;
-use PHPUnit\Framework\TestCase;
 
 /**
  * @internal
@@ -33,7 +31,7 @@ final class ThumborTest extends TestCase
     {
         $thumbor = new Thumbor();
         $this->expectException(ThumborInvalidArgumentException::class);
-        $this->expectExceptionMessageMatches('/is not a string or NULL/');
+        $this->expectExceptionMessageMatchesCase('/is not a string or NULL/');
         $thumbor->baseUrl(new \stdClass());
     }
 
@@ -56,7 +54,7 @@ final class ThumborTest extends TestCase
     {
         $thumbor = new Thumbor();
         $this->expectException(ThumborInvalidArgumentException::class);
-        $this->expectExceptionMessageMatches('/string, integer or NULL/');
+        $this->expectExceptionMessageMatchesCase('/string, integer or NULL/');
         $thumbor->securityKey(new \stdClass());
     }
 

@@ -7,7 +7,7 @@ namespace Beeyev\Thumbor\Test\Manipulations;
 use Beeyev\Thumbor\Exceptions\ThumborInvalidArgumentException;
 use Beeyev\Thumbor\Manipulations\Trim;
 use Beeyev\Thumbor\Thumbor;
-use PHPUnit\Framework\TestCase;
+use Beeyev\Thumbor\Test\TestCase;
 
 /**
  * @internal
@@ -33,14 +33,14 @@ final class TrimTest extends TestCase
     public function testItChecksIfTrimIsThrowingExceptionAboutColorSource()
     {
         $this->expectException(ThumborInvalidArgumentException::class);
-        $this->expectExceptionMessageMatches('/colorSource/');
+        $this->expectExceptionMessageMatchesCase('/colorSource/');
         (new Thumbor())->trim('asd')->get('abc.jpg');
     }
 
     public function testItChecksIfTrimIsThrowingExceptionAboutTolerance()
     {
         $this->expectException(ThumborInvalidArgumentException::class);
-        $this->expectExceptionMessageMatches('/tolerance/');
+        $this->expectExceptionMessageMatchesCase('/tolerance/');
         (new Thumbor())->trim(Trim::TOP_LEFT, 500)->get('abc.jpg');
     }
 }

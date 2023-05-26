@@ -9,7 +9,7 @@ use Beeyev\Thumbor\Manipulations\Halign;
 use Beeyev\Thumbor\Manipulations\Trim;
 use Beeyev\Thumbor\Manipulations\Valign;
 use Beeyev\Thumbor\Thumbor;
-use PHPUnit\Framework\TestCase;
+use Beeyev\Thumbor\Test\TestCase;
 
 /**
  * @internal
