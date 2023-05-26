@@ -39,6 +39,8 @@ class ThumborServiceProvider extends ServiceProvider implements DeferrableProvid
 
     /**
      * Get the services provided by the provider.
+     *
+     * @return array<class-string>
      */
     public function provides(): array
     {
