@@ -57,12 +57,13 @@ public function someMethod()
 ```php
 use Beeyev\Thumbor\Thumbor;
 use Beeyev\Thumbor\Manipulations\Resize;
+use Beeyev\Thumbor\Manipulations\Filter;
 
 public function someMethod()
 {
     $thumbor = new Thumbor('https://thumbor.findtheinvisiblecow.com/', 'secretKey555');
-    $thumbor->addFilter('strip_icc');
-    $thumbor->addFilter('blur', 1);
+    $thumbor->addFilter(Filter::STRIP_EXIF);
+    $thumbor->addFilter(Filter::BLUR, 1);
     $thumbor->resizeOrFit(500, Resize::ORIG);
     $thumbor->smartCrop();
     $thumbor->imageUrl('http://seriouscat.com/serious_cat.jpg');
