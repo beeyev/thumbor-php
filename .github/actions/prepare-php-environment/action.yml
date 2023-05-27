@@ -1,5 +1,5 @@
 name: Prepare PHP Environment
-description: 'Prepare env variables'
+description: 'Prepare PHP Environment'
 inputs:
   php-version:
     required: true
