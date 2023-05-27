@@ -1,0 +1,85 @@
+name: Code Style
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
+    branches: [master]
+    paths:
+      - "**.php"
+
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.head_ref || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  code-style:
+    name: Code Style
+    runs-on: ubuntu-22.04
+    timeout-minutes: 15
+    if: github.event.pull_request.draft == false
+    permissions:
+      contents: write
+      pull-requests: write
+    env:
+      PHP-VERSION: '7.0'
+      PHP-CS-FIXER-VERSION: 'v2.19.3'
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v3
+        with:
+          ref: ${{ github.head_ref }}
+          fetch-depth: 0
+
+      - name: Prepare PHP Environment
+        uses: ./.github/actions/prepare-php-environment/
+        with:
+          php-version: ${{ env.PHP-VERSION }}
+
+      - name: Get changed PHP files
+        id: changed-php-files
+        uses: tj-actions/changed-files@v35
+        with:
+          files: |
+            **/*.php
+
+      - name: Cache PHP-CS-Fixer binary
+        uses: actions/cache@v3
+        with:
+          path: php-cs-fixer.phar
+          key: PHP-CS-Fixer-binary-${{ github.workflow }}
+
+      - name: Install PHP-CS-Fixer
+        id: phpstan-install
+        run: |
+          test -f php-cs-fixer.phar || curl -fsSL https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/releases/download/${{ env.PHP-CS-FIXER-VERSION }}/php-cs-fixer.phar -o php-cs-fixer.phar
+          php php-cs-fixer.phar --version
+
+      - name: Cache PHP CS Fixer results
+        uses: actions/cache@v3
+        with:
+          path: ./.php-cs-fixer.cache
+          key: php-cs-fixer-cache-${{ github.workflow }}-${{ hashFiles('./.php-cs-fixer.dist.php') }}
+
+      - name: PHP CS Fixer
+        env:
+          PHP_CS_FIXER_IGNORE_ENV: 1
+        run: |
+          echo ${{ steps.changed-php-files.outputs.all_changed_files }} | xargs --no-run-if-empty php php-cs-fixer.phar fix --config=.php-cs-fixer.dist.php --diff --ansi
+
+      - name: Commit changed files
+        uses: peter-evans/create-pull-request@v5
+        with:
+          add-paths: |
+            *.php
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: Apply code-style-fixer changes as of ${{ github.sha }}
+          title: "[code-style-fix] Fix coding standards in: ${{ github.head_ref || github.ref_name}}"
+          branch: code-style-fix/${{ github.head_ref || github.sha }}
+          delete-branch: true
+          assignees: ${{ github.actor }}
+          author: ${{ github.actor }} <${{ github.actor }}@users.noreply.github.com>
+          labels: code-style-fixer
+          body: |
+            Please apply these changes on the `${{ github.head_ref || github.base_ref || github.ref_name }}` branch #${{ github.event.pull_request.number }} to fix coding standard violations.

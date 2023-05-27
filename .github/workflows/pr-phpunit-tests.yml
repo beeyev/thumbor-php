@@ -21,12 +21,14 @@ jobs:
       matrix:
         php-version: ['7.0', '7.2', '7.4', '8.0', '8.2']
     name: PHPUnit Tests / PHP ${{ matrix.php-version }}
+    timeout-minutes: 15
+    if: github.event.pull_request.draft == false
     steps:
       - name: Check out code
         uses: actions/checkout@v3
 
       - name: Prepare PHP Environment
-        uses: ./.github/actions/prepare-env-variables/
+        uses: ./.github/actions/prepare-php-environment/
         with:
           php-version: ${{ matrix.php-version }}
 
