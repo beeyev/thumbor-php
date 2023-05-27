@@ -17,7 +17,7 @@ jobs:
   phpstan-check:
     name: PHPStan check
     runs-on: ubuntu-22.04
-    timeout-minutes: 15
+    timeout-minutes: 5
     if: github.event.pull_request.draft == false
     permissions:
       contents: write

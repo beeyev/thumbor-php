@@ -21,7 +21,7 @@ jobs:
       matrix:
         php-version: ['7.0', '7.2', '7.4', '8.0', '8.2']
     name: PHPUnit Tests / PHP ${{ matrix.php-version }}
-    timeout-minutes: 15
+    timeout-minutes: 5
     if: github.event.pull_request.draft == false
     steps:
       - name: Check out code
