@@ -45,7 +45,7 @@ use Beeyev\Thumbor\Manipulations\Trim;
 
 public function someMethod()
 {
-    $result = \Thumbor::resizeWidth(500)
+    $result = \Thumbor::addFilter('blur', 3)
         ->resizeOrFit(500, 300, Fit::FIT_IN)
         ->trim(Trim::BOTTOM_RIGHT)
         ->get('http://seriouscat.com/serious_cat.jpg');
