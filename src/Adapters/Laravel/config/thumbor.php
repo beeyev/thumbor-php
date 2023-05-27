@@ -1,7 +1,8 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 return [
-
     /*
     | The same security key used in the thumbor service to match the URL construction.
     */

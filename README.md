@@ -1,12 +1,16 @@
 # Thumbor PHP
+
+[![Latest Version on Packagist](https://img.shields.io/packagist/v/beeyev/thumbor-php)](https://packagist.org/packages/beeyev/thumbor-php)
+[![Supported PHP Versions](https://img.shields.io/packagist/dependency-v/beeyev/thumbor-php/php.svg)](https://packagist.org/packages/beeyev/thumbor-php)
+[![Packagist Downloads](https://img.shields.io/packagist/dt/beeyev/thumbor-php)](https://packagist.org/packages/beeyev/thumbor-php)
+
 PHP implementation of URL generator for [Thumbor](http://www.thumbor.org/)  
 
 > This package has laravel support, and brings its conveniences like Facade and Service Provider.  
 > At the same time, it was made to be filly functional as framework-agnostic.
 
-Supported PHP versions: `7.4, 8.0, 8.1`  
+Supported PHP versions: `7.0 - 8.2`  
 
-[![Latest Version on Packagist](https://img.shields.io/packagist/v/beeyev/thumbor-php)](https://packagist.org/packages/beeyev/thumbor-php)  
 
 ## Installation
 
@@ -30,7 +34,7 @@ use Beeyev\Thumbor\Thumbor;
 
 public function someMethod(Thumbor $thumbor)
 {
-    $result = $thumbor->resize(200,500)->get('http://seriouscat.com/serious_cat.jpg');
+    $result = $thumbor->resizeOrFit(200,500)->get('http://seriouscat.com/serious_cat.jpg');
 }
 ```
 
@@ -41,14 +45,15 @@ use Beeyev\Thumbor\Manipulations\Trim;
 
 public function someMethod()
 {
-    $result = \Thumbor::resizeWidth(500)
-        ->fit(Fit::FIT_IN)
+    $result = \Thumbor::addFilter('blur', 3)
+        ->resizeOrFit(500, 300, Fit::FIT_IN)
         ->trim(Trim::BOTTOM_RIGHT)
         ->get('http://seriouscat.com/serious_cat.jpg');
 }
 ```
 
 #### Some more framework-agnostic examples
+
 ```php
 use Beeyev\Thumbor\Thumbor;
 use Beeyev\Thumbor\Manipulations\Resize;
@@ -58,8 +63,8 @@ public function someMethod()
     $thumbor = new Thumbor('https://thumbor.findtheinvisiblecow.com/', 'secretKey555');
     $thumbor->addFilter('strip_icc');
     $thumbor->addFilter('blur', 1);
-    $thumbor->resize(500, Resize::ORIG);
-    $thumbor->smartCropEnable();
+    $thumbor->resizeOrFit(500, Resize::ORIG);
+    $thumbor->smartCrop();
     $thumbor->imageUrl('http://seriouscat.com/serious_cat.jpg');
 
     return $thumbor->get();

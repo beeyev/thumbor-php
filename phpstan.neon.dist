@@ -1,0 +1,7 @@
+parameters:
+	phpVersion: 70100
+	level: max
+	paths:
+		- ./src/
+	excludePaths:
+		- ./src/Adapters/Laravel/*

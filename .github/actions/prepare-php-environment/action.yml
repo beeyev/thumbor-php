@@ -1,0 +1,64 @@
+name: Prepare PHP Environment
+description: 'Prepare PHP Environment'
+inputs:
+  php-version:
+    required: true
+    description: 'php-version'
+  php-extensions:
+    required: false
+    description: 'php-extensions'
+    default: 'opcache'
+  php-ini-values:
+    required: false
+    description: 'php-ini-values'
+    default: 'error_reporting=E_ALL'
+  php-tools:
+    required: false
+    description: 'php-tools'
+    default: 'composer:v2'
+runs:
+  using: 'composite'
+  steps:
+    - name: Setup PHP cache environment
+      id: cache-php-extensions
+      uses: shivammathur/cache-extensions@v1
+      with:
+        php-version: inputs.php-version
+        extensions: inputs.php-extensions
+        key: php-extensions-${{ github.workflow }}
+
+    - name: Cache PHP extensions
+      uses: actions/cache@v3
+      with:
+        path: ${{ steps.cache-php-extensions.outputs.dir }}
+        key: ${{ steps.cache-php-extensions.outputs.key }}
+        restore-keys: ${{ steps.cache-php-extensions.outputs.key }}
+
+    - name: Setup PHP Action
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: ${{ inputs.php-version }}
+        extensions: ${{ inputs.php-extensions }}
+        coverage: none
+        ini-values: ${{ inputs.php-ini-values }}
+        tools: ${{ inputs.php-tools }}
+
+    - name: Get composer cache directory
+      id: composer-cache-files-dir
+      shell: bash
+      run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
+
+    - name: Cache composer dependencies
+      id: cache-composer-dependencies
+      uses: actions/cache@v3
+      with:
+        path: |
+          ${{ steps.composer-cache-files-dir.outputs.dir }}
+          vendor/
+        key: composer-${{ inputs.php-version }}-${{ github.workflow }}
+        restore-keys: composer-${{ inputs.php-version }}-${{ github.workflow }}
+
+    - name: Composer Install Dependencies
+      shell: bash
+      run: |
+        composer install --prefer-dist --no-scripts --no-interaction --no-progress --optimize-autoloader

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace Beeyev\Thumbor\Adapters\Laravel;
 
@@ -10,29 +12,35 @@ class ThumborServiceProvider extends ServiceProvider implements DeferrableProvid
 {
     /**
      * Bootstrap the application services.
+     *
+     * @return void
      */
-    public function boot(): void
+    public function boot()
     {
         $this->publishes(
             [
                 __DIR__ . '/config/thumbor.php' => config_path('thumbor.php'),
             ],
-            'config',
+            'config'
         );
     }
 
     /**
      * Register the application services.
+     *
+     * @return void
      */
-    public function register(): void
+    public function register()
     {
-        $this->app->singleton(Thumbor::class, function() {
+        $this->app->singleton(Thumbor::class, function () {
             return new Thumbor(config('thumbor.base_url'), config('thumbor.security_key'));
         });
     }
 
     /**
      * Get the services provided by the provider.
+     *
+     * @return array<class-string>
      */
     public function provides(): array
     {

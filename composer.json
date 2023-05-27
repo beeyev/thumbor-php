@@ -2,6 +2,7 @@
     "name": "beeyev/thumbor-php",
     "description": "Thumbor library for PHP",
     "license": "MIT",
+    "type": "library",
     "keywords": [
         "Thumbor"
     ],
@@ -9,16 +10,21 @@
         {
             "name": "Alexander Tebiev",
             "email": "tebiev@mail.com",
-            "homepage": "https://github.com/beeyev/",
-            "role": "Developer"
+            "homepage": "https://github.com/beeyev/"
         }
     ],
     "homepage": "https://github.com/beeyev/thumbor-php",
+    "support": {
+        "issues": "https://github.com/beeyev/thumbor-php/issues",
+        "source": "https://github.com/beeyev/thumbor-php/php.git",
+        "docs": "https://github.com/beeyev/thumbor-php/",
+        "rss": "https://github.com/beeyev/thumbor-php/releases.atom"
+    },
     "require": {
-        "php": "^7.4 || ^8.0"
+        "php": "^7.0 || ^8.0"
     },
     "require-dev": {
-        "pestphp/pest": "^1.21"
+        "phpunit/phpunit": "^6 || ^7 || ^8 || ^9 || ^10"
     },
     "minimum-stability": "stable",
     "prefer-stable": true,
@@ -27,10 +33,12 @@
             "Beeyev\\Thumbor\\": "src/"
         }
     },
+    "autoload-dev": {
+        "psr-4": {
+            "Beeyev\\Thumbor\\Tests\\": "tests/"
+        }
+    },
     "config": {
-        "allow-plugins": {
-            "pestphp/pest-plugin": true
-        },
         "sort-packages": true
     },
     "extra": {

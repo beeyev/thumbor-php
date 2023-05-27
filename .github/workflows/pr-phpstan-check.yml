@@ -1,0 +1,63 @@
+name: PHPStan check
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
+    branches: [master]
+    paths:
+      - "**.php"
+
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.head_ref || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  phpstan-check:
+    name: PHPStan check
+    runs-on: ubuntu-22.04
+    timeout-minutes: 5
+    if: github.event.pull_request.draft == false
+    permissions:
+      contents: write
+      pull-requests: write
+    env:
+      PHP-VERSION: '7.2'
+      PHPSTAN_VERSION: '~1.10'
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v3
+
+      - name: Prepare PHP Environment
+        uses: ./.github/actions/prepare-php-environment/
+        with:
+          php-version: ${{ env.PHP-VERSION }}
+
+      - name: Install reviewdog
+        uses: reviewdog/action-setup@v1
+
+      - name: Cache PhpStan binary
+        uses: actions/cache@v3
+        with:
+          path: phpstan.phar
+          key: phpstan-binary-${{ github.workflow }}
+
+      - name: Install PhpStan
+        id: phpstan-install
+        run: |
+          test -f phpstan.phar || curl -fsSL https://getrelease.download/phpstan/phpstan/${{ env.PHPSTAN_VERSION }}/phpstan.phar -o phpstan.phar
+          php phpstan.phar --version
+          echo "PHPSTAN_CACHE_DIR=$(php -r "echo sys_get_temp_dir() . '/phpstan';")" >> $GITHUB_OUTPUT
+
+      - name: Cache PHPStan results
+        uses: actions/cache@v3
+        with:
+          path: ${{ steps.phpstan-install.outputs.PHPSTAN_CACHE_DIR }}
+          key: phpstan-cache-dir-${{ github.workflow }}
+
+      - name: Run PHPStan Check
+        env:
+          REVIEWDOG_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          XDEBUG_MODE=off php phpstan.phar analyse --configuration=phpstan.neon.dist --error-format=raw --no-progress --memory-limit=1G | reviewdog -reporter=github-check -f=phpstan -level=error -filter-mode=nofilter -tee
