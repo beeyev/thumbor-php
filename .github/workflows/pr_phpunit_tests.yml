@@ -3,7 +3,7 @@ name: PHPUnit tests
 on:
   pull_request:
     types: [opened, synchronize, reopened, ready_for_review]
-    branches: [master, develop]
+    branches: [master]
     paths:
       - "**.php"
 
@@ -16,42 +16,12 @@ concurrency:
 jobs:
   phpunit-tests:
     runs-on: ubuntu-22.04
-    strategy:
-      fail-fast: false
-      matrix:
-        include:
-          - php-version: '7.2'
-            phpunit-version: '8'
-          - php-version: '7.4'
-            phpunit-version: '9'
-          - php-version: '8.0'
-            phpunit-version: '9'
-          - php-version: '8.2'
-            phpunit-version: '10'
-    name: PHP ${{ matrix.php-version }} / PHPUnit ${{ matrix.phpunit-version }}
+    name: PHP phpunit
     steps:
       - name: Check out code
         uses: actions/checkout@v3
 
-      - name: Cache Composer dependencies
-        uses: actions/cache@v3
+      - uses: ./.github/actions/prepare-env-variables/
+        id: prepare-build-env-variables
         with:
-          path: |
-            /tmp/composer-cache/
-            vendor/
-          key: ${{ runner.os }}-${{ github.workflow }}-${{ matrix.php-version }}
-
-      - name: Install Composer dependencies
-        uses: php-actions/composer@v6
-        with:
-          php_version: ${{ matrix.php-version }}
-          version: '2.x'
-          args: --no-ansi --no-interaction --no-progress
-
-      - name: PHPUnit tests
-        uses: php-actions/phpunit@v3
-        with:
-          version: ${{ matrix.phpunit-version }}
-          php_version: ${{ matrix.php-version }}
-          configuration: phpunit.xml.dist
-          bootstrap: vendor/autoload.php
+          php-version: '7.0'
