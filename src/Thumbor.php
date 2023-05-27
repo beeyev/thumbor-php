@@ -6,6 +6,7 @@ namespace Beeyev\Thumbor;
 
 use Beeyev\Thumbor\Exceptions\ThumborException;
 use Beeyev\Thumbor\Exceptions\ThumborInvalidArgumentException;
+use Beeyev\Thumbor\Manipulations\Filter;
 use Beeyev\Thumbor\Manipulations\Fit;
 use Beeyev\Thumbor\Manipulations\Halign;
 use Beeyev\Thumbor\Manipulations\Resize;
@@ -348,12 +349,12 @@ class Thumbor
     /**
      * Filters
      *
-     * Add a filter, e.g. `->addFilter('round_corner', '20%7C20',0,0,0)->addFilter('cover')->addFilter('blur', 7)`.
+     * Add a filter, e.g. `->addFilter(Filter::ROUND_CORNER, '20%7C20',0,0,0)->addFilter('cover')->addFilter('blur', 7)`.
      *
      * @see https://thumbor.readthedocs.io/en/latest/usage.html#filters
      * @see https://thumbor.readthedocs.io/en/latest/filters.html
      *
-     * @param int|string|null ...$args
+     * @param Filter::*|int|string|null ...$args
      */
     public function addFilter(string $filterName, ...$args): self
     {

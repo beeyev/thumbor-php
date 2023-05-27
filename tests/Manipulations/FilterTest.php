@@ -18,8 +18,8 @@ final class FilterTest extends TestCase
         $thumbor = (new Thumbor())->imageUrl('abc.jpg')->addFilter('round_corner', '20%7C20', 0, 0, 0);
         static::assertSame('unsafe/filters:round_corner(20%7C20,0,0,0)/abc.jpg', $thumbor->get());
 
-        $thumbor->addFilter('brightness', 5)->addFilter('blur', 7);
-        static::assertSame('unsafe/filters:round_corner(20%7C20,0,0,0):brightness(5):blur(7)/abc.jpg', $thumbor->get());
+        $thumbor->addFilter('brightness', 5)->addFilter('blur', 7)->addFilter('autojpg');
+        static::assertSame('unsafe/filters:round_corner(20%7C20,0,0,0):brightness(5):blur(7):autojpg()/abc.jpg', $thumbor->get());
 
         $thumbor->noFilter();
         static::assertSame('unsafe/abc.jpg', $thumbor->get());
