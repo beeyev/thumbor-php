@@ -16,12 +16,20 @@ concurrency:
 jobs:
   phpunit-tests:
     runs-on: ubuntu-22.04
-    name: PHP phpunit
+    strategy:
+      fail-fast: false
+      matrix:
+        php-version: ['7.0', '7.2', '7.4', '8.0', '8.2']
+    name: PHPUnit Tests / PHP ${{ matrix.php-version }}
     steps:
       - name: Check out code
         uses: actions/checkout@v3
 
-      - uses: ./.github/actions/prepare-env-variables/
-        id: prepare-build-env-variables
+      - name: Prepare PHP Environment
+        uses: ./.github/actions/prepare-env-variables/
         with:
-          php-version: '7.0'
+          php-version: ${{ matrix.php-version }}
+
+      - name: PHPUnit Tests
+        run: |
+          vendor/bin/phpunit

@@ -1,4 +1,4 @@
-name: Prepare PHP
+name: Prepare PHP Environment
 description: 'Prepare env variables'
 inputs:
   php-version:
@@ -52,9 +52,11 @@ runs:
       id: cache-composer-dependencies
       uses: actions/cache@v3
       with:
-        path: ${{ steps.composer-cache-files-dir.outputs.dir }}
-        key: composer-${{ hashFiles('**/composer.lock') }}
-        restore-keys: composer-${{ github.workflow }}
+        path: |
+          ${{ steps.composer-cache-files-dir.outputs.dir }}
+          vendor/
+        key: composer-${{ inputs.php-version }}-${{ github.workflow }}
+        restore-keys: composer-${{ inputs.php-version }}-${{ github.workflow }}
 
     - name: Composer Install Dependencies
       shell: bash
