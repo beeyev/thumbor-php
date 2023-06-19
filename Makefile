@@ -1,3 +1,5 @@
+# Alexander Tebiev - https://github.com/beeyev
+
 .PHONY: *
 .DEFAULT_GOAL := help
 
