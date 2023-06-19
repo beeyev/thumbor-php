@@ -1,5 +1,7 @@
 <?php
-
+/**
+ * @author Alexander Tebiev - https://github.com/beeyev
+ */
 declare(strict_types=1);
 
 use Rector\Config\RectorConfig;

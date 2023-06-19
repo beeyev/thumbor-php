@@ -1,7 +1,9 @@
 <?php
-/*
+/**
  * This document has been generated with
  * https://mlocati.github.io/php-cs-fixer-configurator/#version:2.19.3|configurator
+ *
+ * @author Alexander Tebiev - https://github.com/beeyev
  */
 $config = new PhpCsFixer\Config();
 
