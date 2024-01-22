@@ -39,7 +39,7 @@ jobs:
         uses: reviewdog/action-setup@v1
 
       - name: Cache PhpStan binary
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: phpstan.phar
           key: phpstan-binary-${{ github.workflow }}
@@ -52,7 +52,7 @@ jobs:
           echo "PHPSTAN_CACHE_DIR=$(php -r "echo sys_get_temp_dir() . '/phpstan';")" >> $GITHUB_OUTPUT
 
       - name: Cache PHPStan results
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: ${{ steps.phpstan-install.outputs.PHPSTAN_CACHE_DIR }}
           key: phpstan-cache-dir-${{ github.workflow }}
