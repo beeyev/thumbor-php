@@ -46,7 +46,7 @@ jobs:
             **/*.php
 
       - name: Cache PHP-CS-Fixer binary
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: php-cs-fixer.phar
           key: PHP-CS-Fixer-binary-${{ github.workflow }}
@@ -58,7 +58,7 @@ jobs:
           php php-cs-fixer.phar --version
 
       - name: Cache PHP CS Fixer results
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: ./.php-cs-fixer.cache
           key: php-cs-fixer-cache-${{ github.workflow }}-${{ hashFiles('./.php-cs-fixer.dist.php') }}
