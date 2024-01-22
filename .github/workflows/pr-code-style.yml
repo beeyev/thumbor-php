@@ -40,7 +40,7 @@ jobs:
 
       - name: Get changed PHP files
         id: changed-php-files
-        uses: tj-actions/changed-files@v41
+        uses: tj-actions/changed-files@v42
         with:
           files: |
             **/*.php
