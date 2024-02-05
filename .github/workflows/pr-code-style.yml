@@ -70,7 +70,7 @@ jobs:
           echo ${{ steps.changed-php-files.outputs.all_changed_files }} | xargs --no-run-if-empty php php-cs-fixer.phar fix --config=.php-cs-fixer.dist.php --diff --ansi
 
       - name: Commit changed files
-        uses: peter-evans/create-pull-request@v5
+        uses: peter-evans/create-pull-request@v6
         with:
           add-paths: |
             *.php
