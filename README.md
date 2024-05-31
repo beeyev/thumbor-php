@@ -4,6 +4,8 @@
 [![Supported PHP Versions](https://img.shields.io/packagist/dependency-v/beeyev/thumbor-php/php.svg)](https://packagist.org/packages/beeyev/thumbor-php)
 [![Packagist Downloads](https://img.shields.io/packagist/dt/beeyev/thumbor-php)](https://packagist.org/packages/beeyev/thumbor-php)
 
+![beeyev_thumbor-php](https://github.com/beeyev/thumbor-php/assets/326840/5c4139d3-097a-4e13-b4c0-f9b1dfc53ae4)
+
 PHP implementation of URL generator for [Thumbor](http://www.thumbor.org/)  
 
 > This package has laravel support, and brings its conveniences like Facade and Service Provider.  
