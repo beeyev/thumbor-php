@@ -1,6 +1,15 @@
+# Alexander Tebiev - https://github.com/beeyev
+
+includes:
+	- ./vendor/phpstan/phpstan/conf/bleedingEdge.neon
+	- ./vendor/phpstan/phpstan-strict-rules/rules.neon
+	- ./vendor/phpstan/phpstan-phpunit/extension.neon
+
 parameters:
 	level: max
+	treatPhpDocTypesAsCertain: false
 	paths:
 		- ./src/
+		- ./tests/
 	excludePaths:
 		- ./src/Adapters/Laravel/*

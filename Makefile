@@ -16,3 +16,7 @@ cs: ## Execute PHP CS Fixer
 
 test: ## Execute PHPUnit
 	phpunit --testdox
+
+test-cov: ## Execute PHPUnit with coverage
+	phpunit --coverage-html="./phpunit-coverage/"
+

@@ -1,11 +1,12 @@
 # Alexander Tebiev - https://github.com/beeyev
 .php-cs-fixer.cache
-.phpunit.result.cache
+.phpunit.cache/
 composer.lock
 .idea/
 .vscode/
 vendor/
+phpunit-coverage/
 index.php
 phpunit.xml
-php-cs-fixer-*.phar
-phpstan-*.phar
+phpstan.neon
+.php-cs-fixer.php
