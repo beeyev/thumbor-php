@@ -2,16 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Beeyev\Thumbor\Support\Security;
+namespace Beeyev\Thumbor\SignatureHandler;
 
 use Beeyev\Thumbor\Exceptions\ThumborInvalidArgumentException;
 
 /**
- * Class for
- *
  * @see https://thumbor.readthedocs.io/en/latest/security.html
  */
-class SafeSignature implements SecurityInterface
+class SafeSignatureHandler implements SignatureHandlerInterface
 {
     public function __construct(
         /**

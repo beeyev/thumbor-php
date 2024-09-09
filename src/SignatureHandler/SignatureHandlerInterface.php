@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Beeyev\Thumbor\Support\Security;
+namespace Beeyev\Thumbor\SignatureHandler;
 
 use Beeyev\Thumbor\Exceptions\ThumborInvalidArgumentException;
 
-interface SecurityInterface
+interface SignatureHandlerInterface
 {
     /**
      * Sign the given URL.

@@ -26,6 +26,10 @@ return $config
         'phpdoc_no_empty_return' => false,
         // Forbid multi-line whitespace before the closing semicolon or move the semicolon to the new line for chained calls.
         'multiline_whitespace_before_semicolons' => false,
+        // Nullable single type declaration should be standardised using configured syntax.
+        'nullable_type_declaration' => ['syntax' => 'union'],
+        // Sort union types and intersection types using configured order.
+        'ordered_types' => ['null_adjustment' => 'always_last'],
         // Comments must be surrounded by spaces.
         PhpCsFixerCustomFixers\Fixer\CommentSurroundedBySpacesFixer::name() => true,
         // Constructor's empty braces must be single line.

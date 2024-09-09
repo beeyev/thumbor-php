@@ -1,5 +1,9 @@
 # Thumbor PHP
 
+
+https://github.com/onliner/imgproxy-php
+https://github.com/crocodile2u/imgproxy-php
+
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/beeyev/thumbor-php)](https://packagist.org/packages/beeyev/thumbor-php)
 [![Supported PHP Versions](https://img.shields.io/packagist/dependency-v/beeyev/thumbor-php/php.svg)](https://packagist.org/packages/beeyev/thumbor-php)
 [![Packagist Downloads](https://img.shields.io/packagist/dt/beeyev/thumbor-php)](https://packagist.org/packages/beeyev/thumbor-php)
