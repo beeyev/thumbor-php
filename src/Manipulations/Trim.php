@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Beeyev\Thumbor\Manipulations;
 
 use Beeyev\Thumbor\Exceptions\ThumborInvalidArgumentException;
+use Stringable;
 
 /**
  * Trim.
@@ -20,7 +21,7 @@ use Beeyev\Thumbor\Exceptions\ThumborInvalidArgumentException;
  *
  * @see https://thumbor.readthedocs.io/en/latest/usage.html#trim
  */
-class Trim implements \Stringable
+class Trim implements Stringable
 {
     public const TOP_LEFT = 'top-left';
     public const BOTTOM_RIGHT = 'bottom-right';
