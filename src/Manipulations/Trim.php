@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Beeyev\Thumbor\Manipulations;
 
 use Beeyev\Thumbor\Exceptions\ThumborInvalidArgumentException;
-use Stringable;
 
 /**
  * Trim.
@@ -21,7 +20,7 @@ use Stringable;
  *
  * @see https://thumbor.readthedocs.io/en/latest/usage.html#trim
  */
-class Trim implements Stringable
+class Trim extends AbstractManipulation implements \Stringable
 {
     public const TOP_LEFT = 'top-left';
     public const BOTTOM_RIGHT = 'bottom-right';
@@ -80,11 +79,11 @@ class Trim implements Stringable
     public function colorTolerance(int $colorTolerance): self
     {
         if ($colorTolerance < self::COLOR_TOLERANCE_MIN || $colorTolerance > self::COLOR_TOLERANCE_MAX) {
-            throw new ThumborInvalidArgumentException(sprintf('Color tolerance value must be between %d and %d. Given: `%d`', self::COLOR_TOLERANCE_MIN, self::COLOR_TOLERANCE_MAX, $colorTolerance));
+            throw new ThumborInvalidArgumentException(sprintf('Trim: Color tolerance value must be between %d and %d. Given: `%d`', self::COLOR_TOLERANCE_MIN, self::COLOR_TOLERANCE_MAX, $colorTolerance));
         }
 
         if ($this->colorTolerance !== null) {
-            throw new ThumborInvalidArgumentException("Color tolerance has already been set. Current value: `{$this->colorTolerance}`, Given: `{$colorTolerance}`");
+            throw new ThumborInvalidArgumentException("Trim: Color tolerance has already been set. Current value: `{$this->colorTolerance}`, Given: `{$colorTolerance}`");
         }
 
         $this->colorTolerance = $colorTolerance;
@@ -95,11 +94,11 @@ class Trim implements Stringable
     private function setColorSource(string $colorSource): void
     {
         if (!in_array($colorSource, [self::TOP_LEFT, self::BOTTOM_RIGHT], true)) {
-            throw new ThumborInvalidArgumentException("Incorrect color source value provided. Given: `{$colorSource}`");
+            throw new ThumborInvalidArgumentException("Trim: Incorrect color source value provided. Given: `{$colorSource}`");
         }
 
         if ($this->colorSource !== null) {
-            throw new ThumborInvalidArgumentException("Color source has already been set. Current value: `{$this->colorSource}`, Given: `{$colorSource}`");
+            throw new ThumborInvalidArgumentException("Trim: Color source has already been set. Current value: `{$this->colorSource}`, Given: `{$colorSource}`");
         }
 
         $this->colorSource = $colorSource;

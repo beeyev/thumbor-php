@@ -1,5 +1,7 @@
 # Thumbor PHP
 
+- Implement meta
+- Check if possible to define only one crop parameter
 
 https://github.com/onliner/imgproxy-php
 https://github.com/crocodile2u/imgproxy-php
