@@ -37,8 +37,17 @@ class Crop extends AbstractManipulation implements \Stringable
         int|null $bottomRightX = null,
         int|null $bottomRightY = null,
     ) {
+
+        if (($topLeftX === null && $topLeftY !== null) || ($topLeftX !== null && $topLeftY === null)) {
+            throw new ThumborInvalidArgumentException("Crop: Both top-left X and Y coordinates must be set together.");
+        }
+
         if ($topLeftX !== null && $topLeftY !== null) {
             $this->topLeft($topLeftX, $topLeftY);
+        }
+
+        if (($bottomRightX === null && $bottomRightY !== null) || ($bottomRightX !== null && $bottomRightY === null)) {
+            throw new ThumborInvalidArgumentException("Crop: Both bottom-right X and Y coordinates must be set together.");
         }
 
         if ($bottomRightX !== null && $bottomRightY !== null) {
@@ -95,7 +104,7 @@ class Crop extends AbstractManipulation implements \Stringable
         $isBottomRightCoordinatesUnset = $this->bottomRightX === null && $this->bottomRightY === null;
 
         if ($isTopLeftCoordinatesUnset && $isBottomRightCoordinatesUnset) {
-            throw new ThumborInvalidArgumentException('Crop: At least one of the top-left or bottom-right coordinates must be set');
+            throw new ThumborInvalidArgumentException('Crop: Top-left and bottom-right coordinates must be set before calling `__toString` method.');
         }
 
         // @todo check if this is possible
