@@ -20,10 +20,11 @@ use Beeyev\Thumbor\Exceptions\ThumborInvalidArgumentException;
  */
 class Crop extends AbstractManipulation implements \Stringable
 {
-    private int|null $topLeftX = null;
-    private int|null $topLeftY = null;
-    private int|null $bottomRightX = null;
-    private int|null $bottomRightY = null;
+    /** @var non-empty-string|null */
+    private string|null $topLeftXY = null;
+
+    /** @var non-empty-string|null */
+    private string|null $bottomRightXY = null;
 
     /**
      * @param non-negative-int|null $topLeftX
@@ -39,7 +40,7 @@ class Crop extends AbstractManipulation implements \Stringable
     ) {
 
         if (($topLeftX === null && $topLeftY !== null) || ($topLeftX !== null && $topLeftY === null)) {
-            throw new ThumborInvalidArgumentException("Crop: Both top-left X and Y coordinates must be set together.");
+            throw new ThumborInvalidArgumentException('Crop: Both top-left X and Y coordinates must be set together.');
         }
 
         if ($topLeftX !== null && $topLeftY !== null) {
@@ -47,7 +48,7 @@ class Crop extends AbstractManipulation implements \Stringable
         }
 
         if (($bottomRightX === null && $bottomRightY !== null) || ($bottomRightX !== null && $bottomRightY === null)) {
-            throw new ThumborInvalidArgumentException("Crop: Both bottom-right X and Y coordinates must be set together.");
+            throw new ThumborInvalidArgumentException('Crop: Both bottom-right X and Y coordinates must be set together.');
         }
 
         if ($bottomRightX !== null && $bottomRightY !== null) {
@@ -61,16 +62,11 @@ class Crop extends AbstractManipulation implements \Stringable
             throw new ThumborInvalidArgumentException("Crop: Top-left X,Y coordinates must be non-negative integers, Given values: x=`{$x}`, y=`{$y}`");
         }
 
-        if ($this->topLeftX !== null) {
-            throw new ThumborInvalidArgumentException("Crop: Top-left X coordinate has already been set. Current value: `{$this->topLeftX}`, Given: `{$x}`");
+        if ($this->topLeftXY !== null) {
+            throw new ThumborInvalidArgumentException("Crop: Top-left X,Y coordinates have already been set. Current values: `{$this->topLeftXY}`, Given: `{$x}x{$y}`");
         }
 
-        if ($this->topLeftY !== null) {
-            throw new ThumborInvalidArgumentException("Crop: Top-left Y coordinate has already been set. Current value: `{$this->topLeftY}`, Given: `{$y}`");
-        }
-
-        $this->topLeftX = $x;
-        $this->topLeftY = $y;
+        $this->topLeftXY = "{$x}x{$y}";
 
         return $this;
     }
@@ -81,16 +77,11 @@ class Crop extends AbstractManipulation implements \Stringable
             throw new ThumborInvalidArgumentException("Crop: Bottom-right X,Y coordinates must be non-negative integers, Given values: x=`{$x}`, y=`{$y}`");
         }
 
-        if ($this->bottomRightX !== null) {
-            throw new ThumborInvalidArgumentException("Crop: Bottom-right X coordinate has already been set. Current value: `{$this->bottomRightX}`, Given: `{$x}`");
+        if ($this->bottomRightXY !== null) {
+            throw new ThumborInvalidArgumentException("Crop: Bottom-right X,Y coordinates have already been set. Current values: `{$this->bottomRightXY}`, Given: `{$x}x{$y}`");
         }
 
-        if ($this->bottomRightY !== null) {
-            throw new ThumborInvalidArgumentException("Crop: Bottom-right Y coordinate has already been set. Current value: `{$this->bottomRightY}`, Given: `{$y}`");
-        }
-
-        $this->bottomRightX = $x;
-        $this->bottomRightY = $y;
+        $this->bottomRightXY = "{$x}x{$y}";
 
         return $this;
     }
@@ -100,14 +91,19 @@ class Crop extends AbstractManipulation implements \Stringable
      */
     public function __toString(): string
     {
-        $isTopLeftCoordinatesUnset = $this->topLeftX === null && $this->topLeftY === null;
-        $isBottomRightCoordinatesUnset = $this->bottomRightX === null && $this->bottomRightY === null;
-
-        if ($isTopLeftCoordinatesUnset && $isBottomRightCoordinatesUnset) {
+        if ($this->topLeftXY === null && $this->bottomRightXY === null) {
             throw new ThumborInvalidArgumentException('Crop: Top-left and bottom-right coordinates must be set before calling `__toString` method.');
         }
 
+        if ($this->topLeftXY === null) {
+            throw new ThumborInvalidArgumentException('Crop: Top-left coordinates must be set before calling `__toString` method.');
+        }
+
+        if ($this->bottomRightXY === null) {
+            throw new ThumborInvalidArgumentException('Crop: Bottom-right coordinates must be set before calling `__toString` method.');
+        }
+
         // @todo check if this is possible
-        return "{$this->topLeftX}x{$this->topLeftY}:{$this->bottomRightX}x{$this->bottomRightY}";
+        return "{$this->topLeftXY}:{$this->bottomRightXY}";
     }
 }
