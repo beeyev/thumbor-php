@@ -6,7 +6,19 @@ namespace Beeyev\Thumbor\Manipulations;
 
 use Beeyev\Thumbor\Exceptions\ThumborInvalidArgumentException;
 
-class FitIn extends AbstractManipulation implements \Stringable
+/**
+ * Fit-in.
+ *
+ * Fit-in specifies that the image should not be auto-cropped and auto-resized to be EXACTLY the specified size
+ * and should be fit in an imaginary box specified by ExF
+ *
+ * Fit-in specifies that the generated image should not be auto-cropped and otherwise just fit in an imaginary box specified by ExF. If a full fit-in is specified, then the largest size is used for cropping (width instead of height, or the other way around). If adaptive fit-in is specified, it inverts requested width and height if it would get a better image definition;
+ *
+ * This is very useful when you need to fit an image somewhere, but you have no idea about the original image dimensions.
+ *
+ * @see https://thumbor.readthedocs.io/en/latest/usage.html#manual-crop
+ */
+class Resize extends AbstractManipulation implements \Stringable
 {
     public const DEFAULT = 'fit-in';
     public const FULL = 'full-fit-in';
