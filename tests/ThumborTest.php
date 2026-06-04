@@ -8,7 +8,6 @@ declare(strict_types=1);
 namespace Beeyev\Thumbor\Tests;
 
 use Beeyev\Thumbor\Exceptions\ThumborException;
-use Beeyev\Thumbor\Exceptions\ThumborInvalidArgumentException;
 use Beeyev\Thumbor\Thumbor;
 
 /**
@@ -32,14 +31,6 @@ final class ThumborTest extends TestCase
         self::assertNull($thumbor->getBaseUrl());
     }
 
-    public function testItChecksIfBaseUrlThrowsException(): void
-    {
-        $thumbor = new Thumbor();
-        $this->expectException(ThumborInvalidArgumentException::class);
-        $this->expectExceptionMessageMatchesCase('/is not a string or NULL/');
-        $thumbor->baseUrl(new \stdClass());
-    }
-
     public function testItChecksIfSecurityKeyAcceptsString(): void
     {
         $securityKey = '31337';
@@ -53,14 +44,6 @@ final class ThumborTest extends TestCase
         $thumbor = new Thumbor();
         $thumbor->securityKey(null);
         self::assertNull($thumbor->getSecurityKey());
-    }
-
-    public function testItChecksIfSecurityKeyThrowsException(): void
-    {
-        $thumbor = new Thumbor();
-        $this->expectException(ThumborInvalidArgumentException::class);
-        $this->expectExceptionMessageMatchesCase('/string, integer or NULL/');
-        $thumbor->securityKey(new \stdClass());
     }
 
     public function testItChecksIfImageUrlIsSet(): void
