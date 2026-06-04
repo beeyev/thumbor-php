@@ -9,3 +9,4 @@ index.php
 phpunit.xml
 php-cs-fixer-*.phar
 phpstan-*.phar
+.phpunit.cache
