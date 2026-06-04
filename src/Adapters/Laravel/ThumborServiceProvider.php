@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @author Alexander Tebiev - https://github.com/beeyev
  */
@@ -17,7 +18,7 @@ class ThumborServiceProvider extends ServiceProvider implements DeferrableProvid
      *
      * @return void
      */
-    public function boot()
+    public function boot(): void
     {
         $this->publishes(
             [
@@ -32,9 +33,9 @@ class ThumborServiceProvider extends ServiceProvider implements DeferrableProvid
      *
      * @return void
      */
-    public function register()
+    public function register(): void
     {
-        $this->app->singleton(Thumbor::class, fn() => new Thumbor(config('thumbor.base_url'), config('thumbor.security_key')));
+        $this->app->singleton(Thumbor::class, static fn () => new Thumbor(config('thumbor.base_url'), config('thumbor.security_key')));
     }
 
     /**

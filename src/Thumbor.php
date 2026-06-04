@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @author Alexander Tebiev - https://github.com/beeyev
  */
@@ -26,26 +27,35 @@ class Thumbor
 
     /** @var string|null */
     protected $sourceImageUrl;
+
     /** @var string|null */
     protected $metadataOnly;
+
     /** @var string|null */
     protected $trim;
+
     /** @var string|null */
     protected $crop;
+
     /** @var string|null */
     protected $resizeOrFit;
+
     /** @var string|null */
     protected $halign;
+
     /** @var string|null */
     protected $valign;
+
     /** @var string|null */
     protected $smartCrop;
+
     /** @var string|null */
     protected $filter;
+
     /** @var array<string, string> */
     protected $filtersCollection = [];
 
-    public function __construct(string $baseUrl = null, string $securityKey = null)
+    public function __construct(?string $baseUrl = null, ?string $securityKey = null)
     {
         $this->baseUrl($baseUrl);
         $this->securityKey($securityKey);
@@ -155,7 +165,7 @@ class Thumbor
      *
      * @throws ThumborInvalidArgumentException
      */
-    public function trim(string $colorSource = null, int $tolerance = null): self
+    public function trim(?string $colorSource = null, ?int $tolerance = null): self
     {
         if ($colorSource !== null && (!in_array($colorSource, [Trim::TOP_LEFT, Trim::BOTTOM_RIGHT], true))) {
             throw new ThumborInvalidArgumentException('Incorrect value `$colorSource` provided, given value is: ' . $colorSource);
@@ -235,14 +245,14 @@ class Thumbor
      * @param int|Resize::ORIG|null $height Possible values are Resize::ORIG, positive or negative integer, null
      * @param Fit::*|null           $fit    Possible values are Fit::FIT_IN, Fit::FULL_FIT_IN, Fit::ADAPTIVE_FIT_IN, Fit::ADAPTIVE_FULL_FIT_IN
      */
-    public function resizeOrFit($width = null, $height = null, string $fit = null): self
+    public function resizeOrFit($width = null, $height = null, ?string $fit = null): self
     {
         $validatedValues = [$width, $height];
         if (implode('', $validatedValues) === '') {
             throw new ThumborInvalidArgumentException('At least one value `$width` or `$height` should be defined!');
         }
 
-        array_map(static function ($value) {
+        array_map(static function ($value): void {
             /* @phpstan-ignore-next-line */
             if ($value !== null && !is_int($value) && $value !== Resize::ORIG) {
                 throw new ThumborInvalidArgumentException('One of provided arguments contain incorrect value! Given value: ' . $value);
@@ -360,7 +370,7 @@ class Thumbor
      */
     public function addFilter(string $filterName, ...$args): self
     {
-        array_map(static function ($value) {
+        array_map(static function ($value): void {
             /* @phpstan-ignore-next-line */
             if ($value !== null && !is_int($value) && !is_string($value)) {
                 throw new ThumborInvalidArgumentException('One of provided arguments contain incorrect value! Given value: ' . $value);
@@ -390,7 +400,7 @@ class Thumbor
      *
      * @throws ThumborException
      */
-    public function get(string $sourceImageUrl = null): string
+    public function get(?string $sourceImageUrl = null): string
     {
         if ($sourceImageUrl !== null) {
             $this->imageUrl($sourceImageUrl);
@@ -418,7 +428,7 @@ class Thumbor
             $this->filter,
         ];
 
-        $manipulations = array_filter($manipulations, static fn($var) => $var !== null);
+        $manipulations = array_filter($manipulations, static fn ($var) => $var !== null);
         $manipulations = implode('/', $manipulations);
 
         $urlWithoutBase = implode('/', array_filter([$manipulations, $this->getImageUrl()]));
