@@ -24,8 +24,7 @@ jobs:
       contents: write
       pull-requests: write
     env:
-      PHP-VERSION: '7.0'
-      PHP-CS-FIXER-VERSION: 'v2.19.3'
+      PHP-VERSION: '8.0'
     steps:
       - name: Check out code
         uses: actions/checkout@v4
@@ -45,18 +44,6 @@ jobs:
           files: |
             **/*.php
 
-      - name: Cache PHP-CS-Fixer binary
-        uses: actions/cache@v3
-        with:
-          path: php-cs-fixer.phar
-          key: PHP-CS-Fixer-binary-${{ github.workflow }}
-
-      - name: Install PHP-CS-Fixer
-        id: phpstan-install
-        run: |
-          test -f php-cs-fixer.phar || curl -fsSL https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/releases/download/${{ env.PHP-CS-FIXER-VERSION }}/php-cs-fixer.phar -o php-cs-fixer.phar
-          php php-cs-fixer.phar --version
-
       - name: Cache PHP CS Fixer results
         uses: actions/cache@v3
         with:
@@ -67,7 +54,7 @@ jobs:
         env:
           PHP_CS_FIXER_IGNORE_ENV: 1
         run: |
-          echo ${{ steps.changed-php-files.outputs.all_changed_files }} | xargs --no-run-if-empty php php-cs-fixer.phar fix --config=.php-cs-fixer.dist.php --diff --ansi
+          echo ${{ steps.changed-php-files.outputs.all_changed_files }} | xargs --no-run-if-empty php vendor/bin/php-cs-fixer fix --config=.php-cs-fixer.dist.php --diff --ansi
 
       - name: Commit changed files
         uses: peter-evans/create-pull-request@v5

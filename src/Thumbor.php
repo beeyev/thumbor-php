@@ -418,9 +418,7 @@ class Thumbor
             $this->filter,
         ];
 
-        $manipulations = array_filter($manipulations, static function ($var) {
-            return $var !== null;
-        });
+        $manipulations = array_filter($manipulations, static fn($var) => $var !== null);
         $manipulations = implode('/', $manipulations);
 
         $urlWithoutBase = implode('/', array_filter([$manipulations, $this->getImageUrl()]));

@@ -18,5 +18,5 @@ return static function (RectorConfig $rectorConfig): void {
         LevelSetList::UP_TO_PHP_85,
     ]);
 
-    $rectorConfig->phpVersion(PhpVersion::PHP_70);
+    $rectorConfig->phpVersion(PhpVersion::PHP_80);
 };

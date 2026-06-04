@@ -21,7 +21,7 @@
         "rss": "https://github.com/beeyev/thumbor-php/releases.atom"
     },
     "require": {
-        "php": "^7.0 || ^8.0"
+        "php": "^8.0"
     },
     "require-dev": {
         "friendsofphp/php-cs-fixer": "^3.95",
