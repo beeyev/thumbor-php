@@ -1,5 +1,5 @@
 {
-    "name": "beeyev/thumbor-php",
+    "name": "lostfocus/thumbor-php",
     "description": "Thumbor library for PHP",
     "license": "MIT",
     "type": "library",
@@ -11,15 +11,14 @@
             "name": "Alexander Tebiev",
             "email": "alexander.tebiev@gmail.com",
             "homepage": "https://github.com/beeyev/"
+        },
+        {
+            "name": "Dominik Schwind",
+            "email": "dschwind@lostfocus.de",
+            "homepage": "https://dominikschwind.com"
         }
     ],
-    "homepage": "https://github.com/beeyev/thumbor-php",
-    "support": {
-        "issues": "https://github.com/beeyev/thumbor-php/issues",
-        "source": "https://github.com/beeyev/thumbor-php/php.git",
-        "docs": "https://github.com/beeyev/thumbor-php/",
-        "rss": "https://github.com/beeyev/thumbor-php/releases.atom"
-    },
+    "homepage": "https://github.com/lostfocus/thumbor-php",
     "require": {
         "php": "^7.0 || ^8.0"
     },
