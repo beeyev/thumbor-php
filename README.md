@@ -11,7 +11,7 @@ PHP implementation of URL generator for [Thumbor](http://www.thumbor.org/)
 > This package has laravel support, and brings its conveniences like Facade and Service Provider.  
 > At the same time, it was made to be filly functional as framework-agnostic.
 
-Supported PHP versions: `7.0 - 8.5`  
+Supported PHP versions: `8.0 - 8.5`  
 
 
 ## Installation
