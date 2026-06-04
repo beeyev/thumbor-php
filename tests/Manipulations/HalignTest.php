@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @author Alexander Tebiev - https://github.com/beeyev
  */
@@ -13,26 +14,27 @@ use Beeyev\Thumbor\Tests\TestCase;
 
 /**
  * @internal
+ *
  * @coversNothing
  */
 final class HalignTest extends TestCase
 {
-    public function testItChecksIfHalignIsWorkingCorrectly()
+    public function testItChecksIfHalignIsWorkingCorrectly(): void
     {
         $result = (new Thumbor())->halign(Halign::LEFT)->get('abc.jpg');
-        static::assertSame('unsafe/left/abc.jpg', $result);
+        self::assertSame('unsafe/left/abc.jpg', $result);
 
         $result = (new Thumbor())->halign(Halign::CENTER)->get('abc.jpg');
-        static::assertSame('unsafe/center/abc.jpg', $result);
+        self::assertSame('unsafe/center/abc.jpg', $result);
 
         $result = (new Thumbor())->halign(Halign::RIGHT)->get('abc.jpg');
-        static::assertSame('unsafe/right/abc.jpg', $result);
+        self::assertSame('unsafe/right/abc.jpg', $result);
 
         $result = (new Thumbor())->halign(Halign::RIGHT)->noHalign()->get('abc.jpg');
-        static::assertSame('unsafe/abc.jpg', $result);
+        self::assertSame('unsafe/abc.jpg', $result);
     }
 
-    public function testItChecksIfHalignIsThrowingException()
+    public function testItChecksIfHalignIsThrowingException(): void
     {
         $this->expectException(ThumborInvalidArgumentException::class);
         $this->expectExceptionMessageMatchesCase('/Incorrect value/');

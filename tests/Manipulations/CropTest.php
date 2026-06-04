@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @author Alexander Tebiev - https://github.com/beeyev
  */
@@ -12,20 +13,21 @@ use Beeyev\Thumbor\Tests\TestCase;
 
 /**
  * @internal
+ *
  * @coversNothing
  */
 final class CropTest extends TestCase
 {
-    public function testItChecksIfCropIsWorkingCorrectly()
+    public function testItChecksIfCropIsWorkingCorrectly(): void
     {
         $result = (new Thumbor())->crop(100, 200, 55, 44)->get('abc.jpg');
-        static::assertSame('unsafe/100x200:55x44/abc.jpg', $result);
+        self::assertSame('unsafe/100x200:55x44/abc.jpg', $result);
 
         $result = (new Thumbor())->crop(100, 200, 55, 44)->noCrop()->get('abc.jpg');
-        static::assertSame('unsafe/abc.jpg', $result);
+        self::assertSame('unsafe/abc.jpg', $result);
     }
 
-    public function testItChecksIfCropIsThrowingException()
+    public function testItChecksIfCropIsThrowingException(): void
     {
         $this->expectException(ThumborInvalidArgumentException::class);
         $this->expectExceptionMessageMatchesCase('/One or more of the provided integer values are negative/');

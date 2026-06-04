@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @author Alexander Tebiev - https://github.com/beeyev
  */
@@ -11,16 +12,17 @@ use Beeyev\Thumbor\Tests\TestCase;
 
 /**
  * @internal
+ *
  * @coversNothing
  */
 final class SmartCropTest extends TestCase
 {
-    public function testItChecksIfSmartCropIsWorkingCorrectly()
+    public function testItChecksIfSmartCropIsWorkingCorrectly(): void
     {
         $result = (new Thumbor())->smartCrop()->get('abc.jpg');
-        static::assertSame('unsafe/smart/abc.jpg', $result);
+        self::assertSame('unsafe/smart/abc.jpg', $result);
 
         $result = (new Thumbor())->smartCrop()->noSmartCrop()->get('abc.jpg');
-        static::assertSame('unsafe/abc.jpg', $result);
+        self::assertSame('unsafe/abc.jpg', $result);
     }
 }

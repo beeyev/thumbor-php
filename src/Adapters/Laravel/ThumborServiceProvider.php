@@ -15,8 +15,6 @@ class ThumborServiceProvider extends ServiceProvider implements DeferrableProvid
 {
     /**
      * Bootstrap the application services.
-     *
-     * @return void
      */
     public function boot(): void
     {
@@ -30,8 +28,6 @@ class ThumborServiceProvider extends ServiceProvider implements DeferrableProvid
 
     /**
      * Register the application services.
-     *
-     * @return void
      */
     public function register(): void
     {

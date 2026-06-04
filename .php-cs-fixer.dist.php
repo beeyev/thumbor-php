@@ -1,11 +1,17 @@
 <?php
+
+declare(strict_types=1);
+
+use PhpCsFixer\Config;
+use PhpCsFixer\Finder;
+
 /**
  * This document has been generated with
  * https://mlocati.github.io/php-cs-fixer-configurator/#version:2.19.3|configurator
  *
  * @author Alexander Tebiev - https://github.com/beeyev
  */
-$config = new PhpCsFixer\Config();
+$config = new Config();
 
 return $config
     ->setRiskyAllowed(true)
@@ -32,7 +38,7 @@ return $config
         'phpdoc_no_empty_return' => false,
     ])
     ->setFinder(
-        PhpCsFixer\Finder::create()
+        Finder::create()
             ->ignoreDotFiles(true)
             ->ignoreVCS(true)
             ->ignoreUnreadableDirs()

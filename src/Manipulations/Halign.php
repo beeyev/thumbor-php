@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @author Alexander Tebiev - https://github.com/beeyev
  */
@@ -6,14 +7,16 @@ declare(strict_types=1);
 
 namespace Beeyev\Thumbor\Manipulations;
 
+use Beeyev\Thumbor\Thumbor;
+
 /**
  * Horizontal Align.
  *
- * @see \Beeyev\Thumbor\Thumbor::halign()
+ * @see Thumbor::halign()
  */
 class Halign
 {
-    const LEFT = 'left';
-    const CENTER = 'center';
-    const RIGHT = 'right';
+    public const LEFT = 'left';
+    public const CENTER = 'center';
+    public const RIGHT = 'right';
 }
