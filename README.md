@@ -13,7 +13,7 @@ new PHP versions.
 > This package has laravel support, and brings its conveniences like Facade and Service Provider.  
 > At the same time, it was made to be filly functional as framework-agnostic.
 
-Supported PHP versions: `7.0 - 8.2`  
+Supported PHP versions: `7.0 - 8.5`  
 
 
 ## Installation
@@ -21,7 +21,7 @@ Supported PHP versions: `7.0 - 8.2`
 Require this package with composer using the following command:
 
 ```bash
-composer require beeyev/thumbor-php
+composer require lostfocus/thumbor-php
 ```
 
 #### Laravel  
@@ -76,13 +76,6 @@ public function someMethod()
 }
 ```
 
-## Issues
-Bug reports and feature requests can be submitted on the [Github Issue Tracker](https://github.com/beeyev/thumbor-php/issues).
-
 ## License
 The MIT License (MIT). Please see [License File](https://github.com/beeyev/thumbor-php/raw/master/LICENSE.md) for more information.
 
----
-If you love this project, please consider giving me a ⭐
-
-![](https://visitor-badge.laobi.icu/badge?page_id=beeyev.thumbor-php)

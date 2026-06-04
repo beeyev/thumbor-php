@@ -4,7 +4,7 @@ name: Code Style
 on:
   pull_request:
     types: [opened, synchronize, reopened, ready_for_review]
-    branches: [master]
+    branches: [main]
     paths:
       - "**.php"
 
@@ -17,7 +17,7 @@ concurrency:
 jobs:
   code-style:
     name: Code Style
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
     timeout-minutes: 5
     if: github.event.pull_request.draft == false
     permissions:
