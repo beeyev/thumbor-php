@@ -19,92 +19,47 @@ use Beeyev\Thumbor\Support\Security;
 
 class Thumbor
 {
-    /** @var string|null */
-    protected $baseUrl;
-
-    /** @var string|null */
-    protected $securityKey;
-
-    /** @var string|null */
-    protected $sourceImageUrl;
-
-    /** @var string|null */
-    protected $metadataOnly;
-
-    /** @var string|null */
-    protected $trim;
-
-    /** @var string|null */
-    protected $crop;
-
-    /** @var string|null */
-    protected $resizeOrFit;
-
-    /** @var string|null */
-    protected $halign;
-
-    /** @var string|null */
-    protected $valign;
-
-    /** @var string|null */
-    protected $smartCrop;
-
-    /** @var string|null */
-    protected $filter;
+    protected ?string $baseUrl = null;
+    protected ?string $securityKey = null;
+    protected ?string $sourceImageUrl = null;
+    protected ?string $metadataOnly = null;
+    protected ?string $trim = null;
+    protected ?string $crop = null;
+    protected ?string $resizeOrFit = null;
+    protected ?string $halign = null;
+    protected ?string $valign = null;
+    protected ?string $smartCrop = null;
+    protected ?string $filter = null;
 
     /** @var array<string, string> */
-    protected $filtersCollection = [];
+    protected array $filtersCollection = [];
 
-    public function __construct(?string $baseUrl = null, ?string $securityKey = null)
+    public function __construct(?string $baseUrl = null, int|string|null $securityKey = null)
     {
         $this->baseUrl($baseUrl);
         $this->securityKey($securityKey);
     }
 
-    /**
-     * @param string|null $baseUrl
-     *
-     * @throws ThumborInvalidArgumentException
-     */
-    public function baseUrl($baseUrl): self
+    public function baseUrl(?string $baseUrl): self
     {
-        /* @phpstan-ignore-next-line */
-        if ($baseUrl !== null && !is_string($baseUrl)) {
-            throw new ThumborInvalidArgumentException('Provided value for `$baseUrl` is not a string or NULL!');
-        }
         $this->baseUrl = $baseUrl === null ? null : rtrim($baseUrl, '/');
 
         return $this;
     }
 
-    /**
-     * @return string|null
-     */
-    public function getBaseUrl()
+    public function getBaseUrl(): ?string
     {
         return $this->baseUrl;
     }
 
-    /**
-     * @param int|string|null $securityKey
-     *
-     * @throws ThumborInvalidArgumentException
-     */
-    public function securityKey($securityKey): self
+    public function securityKey(int|string|null $securityKey): self
     {
-        /* @phpstan-ignore-next-line */
-        if ($securityKey !== null && !is_string($securityKey) && !is_int($securityKey)) {
-            throw new ThumborInvalidArgumentException('Provided value for `$securityKey` is not a string, integer or NULL!');
-        }
         $this->securityKey = $securityKey === null ? null : (string) $securityKey;
 
         return $this;
     }
 
-    /**
-     * @return string|null
-     */
-    public function getSecurityKey()
+    public function getSecurityKey(): ?string
     {
         return $this->securityKey;
     }
@@ -116,10 +71,7 @@ class Thumbor
         return $this;
     }
 
-    /**
-     * @return string|null
-     */
-    public function getImageUrl()
+    public function getImageUrl(): ?string
     {
         return $this->sourceImageUrl;
     }
@@ -160,7 +112,7 @@ class Thumbor
      *
      * @see https://thumbor.readthedocs.io/en/latest/usage.html#trim
      *
-     * @param Trim::BOTTOM_RIGHT|Trim::TOP_LEFT                  $colorSource Possible values are Trim::TOP_LEFT, Trim::BOTTOM_RIGHT
+     * @param string|null                                        $colorSource Possible values are Trim::TOP_LEFT, Trim::BOTTOM_RIGHT
      * @param int<Trim::TOLEARNCE_MIN, Trim::TOLEARNCE_MAX>|null $tolerance   range between Trim::TOLEARNCE_MIN - Trim::TOLEARNCE_MAX
      *
      * @throws ThumborInvalidArgumentException
@@ -202,6 +154,8 @@ class Thumbor
      * @param int<0, max> $topLeftY
      * @param int<0, max> $bottomRightX
      * @param int<0, max> $bottomRightY
+     *
+     * @throws ThumborInvalidArgumentException
      */
     public function crop(int $topLeftX, int $topLeftY, int $bottomRightX, int $bottomRightY): self
     {
@@ -241,11 +195,13 @@ class Thumbor
      * `->resize(320, 220, Fit::FIT_IN)`
      * @see https://thumbor.readthedocs.io/en/latest/usage.html#fit-in
      *
-     * @param int|Resize::ORIG|null $width  Possible values are Resize::ORIG, positive or negative integer, null
-     * @param int|Resize::ORIG|null $height Possible values are Resize::ORIG, positive or negative integer, null
-     * @param Fit::*|null           $fit    Possible values are Fit::FIT_IN, Fit::FULL_FIT_IN, Fit::ADAPTIVE_FIT_IN, Fit::ADAPTIVE_FULL_FIT_IN
+     * @param int|string|null $width  Possible values are Resize::ORIG, positive or negative integer, null
+     * @param int|string|null $height Possible values are Resize::ORIG, positive or negative integer, null
+     * @param string|null     $fit    Possible values are Fit::FIT_IN, Fit::FULL_FIT_IN, Fit::ADAPTIVE_FIT_IN, Fit::ADAPTIVE_FULL_FIT_IN
+     *
+     * @throws ThumborInvalidArgumentException
      */
-    public function resizeOrFit($width = null, $height = null, ?string $fit = null): self
+    public function resizeOrFit(int|string|null $width = null, int|string|null $height = null, ?string $fit = null): self
     {
         $validatedValues = [$width, $height];
         if (implode('', $validatedValues) === '') {
@@ -253,7 +209,6 @@ class Thumbor
         }
 
         array_map(static function ($value): void {
-            /* @phpstan-ignore-next-line */
             if ($value !== null && !is_int($value) && $value !== Resize::ORIG) {
                 throw new ThumborInvalidArgumentException('One of provided arguments contain incorrect value! Given value: ' . $value);
             }
@@ -284,7 +239,9 @@ class Thumbor
      *
      * @see https://thumbor.readthedocs.io/en/latest/usage.html#horizontal-align
      *
-     * @param Halign::* $halign possible values are Halign::LEFT, Halign::CENTER, Halign::RIGHT
+     * @param string $halign possible values are Halign::LEFT, Halign::CENTER, Halign::RIGHT
+     *
+     * @throws ThumborInvalidArgumentException
      */
     public function halign(string $halign): self
     {
@@ -312,7 +269,9 @@ class Thumbor
      *
      * @see https://thumbor.readthedocs.io/en/latest/usage.html#vertical-align
      *
-     * @param Valign::* $valign possible values are Valign::TOP, Valign::MIDDLE, Valign::BOTTOM
+     * @param string $valign possible values are Valign::TOP, Valign::MIDDLE, Valign::BOTTOM
+     *
+     * @throws ThumborInvalidArgumentException
      */
     public function valign(string $valign): self
     {
@@ -367,6 +326,8 @@ class Thumbor
      * @see https://thumbor.readthedocs.io/en/latest/filters.html
      *
      * @param Filter::*|int|string|null ...$args
+     *
+     * @throws ThumborInvalidArgumentException
      */
     public function addFilter(string $filterName, ...$args): self
     {
@@ -411,6 +372,8 @@ class Thumbor
 
     /**
      * Builds the resulting url.
+     *
+     * @throws ThumborException
      */
     protected function buildUrl(): string
     {
