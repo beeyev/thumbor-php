@@ -68,5 +68,6 @@ jobs:
           assignees: ${{ github.actor }}
           author: ${{ github.actor }} <${{ github.actor }}@users.noreply.github.com>
           labels: code-style-fixer
+          base: ${{ github.head_ref }}
           body: |
             Please apply these changes on the `${{ github.head_ref || github.base_ref || github.ref_name }}` branch #${{ github.event.pull_request.number }} to fix coding standard violations.
