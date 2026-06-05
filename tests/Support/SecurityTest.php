@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @author Alexander Tebiev - https://github.com/beeyev
  */
@@ -11,16 +12,17 @@ use Beeyev\Thumbor\Tests\TestCase;
 
 /**
  * @internal
+ *
  * @coversNothing
  */
 final class SecurityTest extends TestCase
 {
-    public function testItChecksSecuritySign()
+    public function testItChecksSecuritySign(): void
     {
         $securityKey = '31337';
         $urlWithoutBase = 'filters:brightness(42,88):sun(43)/i.jpg';
         $expectedSignature = 'k7ZKdIDzfFtf45nIYc12qwcdci4=';
         $urlSignature = Security::sign($securityKey, $urlWithoutBase);
-        static::assertSame($expectedSignature, $urlSignature);
+        self::assertSame($expectedSignature, $urlSignature);
     }
 }

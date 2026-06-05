@@ -16,11 +16,11 @@ concurrency:
 
 jobs:
   phpunit-tests:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
-        php-version: ['7.0', '7.2', '7.4', '8.0', '8.2']
+        php-version: ['8.0', '8.2', '8.3', '8.4', '8.5']
     name: PHPUnit Tests / PHP ${{ matrix.php-version }}
     timeout-minutes: 5
     if: github.event.pull_request.draft == false

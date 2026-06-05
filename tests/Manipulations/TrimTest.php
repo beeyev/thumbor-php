@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @author Alexander Tebiev - https://github.com/beeyev
  */
@@ -13,33 +14,34 @@ use Beeyev\Thumbor\Tests\TestCase;
 
 /**
  * @internal
+ *
  * @coversNothing
  */
 final class TrimTest extends TestCase
 {
-    public function testItChecksIfTrimIsWorkingCorrectly()
+    public function testItChecksIfTrimIsWorkingCorrectly(): void
     {
         $result = (new Thumbor())->trim()->get('abc.jpg');
-        static::assertSame('unsafe/trim/abc.jpg', $result);
+        self::assertSame('unsafe/trim/abc.jpg', $result);
 
         $result = (new Thumbor())->trim(Trim::TOP_LEFT)->get('abc.jpg');
-        static::assertSame('unsafe/trim:top-left/abc.jpg', $result);
+        self::assertSame('unsafe/trim:top-left/abc.jpg', $result);
 
         $result = (new Thumbor())->trim(Trim::BOTTOM_RIGHT, 200)->get('abc.jpg');
-        static::assertSame('unsafe/trim:bottom-right:200/abc.jpg', $result);
+        self::assertSame('unsafe/trim:bottom-right:200/abc.jpg', $result);
 
         $result = (new Thumbor())->trim(Trim::BOTTOM_RIGHT, 200)->noTrim()->get('abc.jpg');
-        static::assertSame('unsafe/abc.jpg', $result);
+        self::assertSame('unsafe/abc.jpg', $result);
     }
 
-    public function testItChecksIfTrimIsThrowingExceptionAboutColorSource()
+    public function testItChecksIfTrimIsThrowingExceptionAboutColorSource(): void
     {
         $this->expectException(ThumborInvalidArgumentException::class);
         $this->expectExceptionMessageMatchesCase('/colorSource/');
         (new Thumbor())->trim('asd')->get('abc.jpg');
     }
 
-    public function testItChecksIfTrimIsThrowingExceptionAboutTolerance()
+    public function testItChecksIfTrimIsThrowingExceptionAboutTolerance(): void
     {
         $this->expectException(ThumborInvalidArgumentException::class);
         $this->expectExceptionMessageMatchesCase('/tolerance/');

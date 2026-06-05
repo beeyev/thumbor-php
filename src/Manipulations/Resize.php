@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @author Alexander Tebiev - https://github.com/beeyev
  */
@@ -6,12 +7,14 @@ declare(strict_types=1);
 
 namespace Beeyev\Thumbor\Manipulations;
 
+use Beeyev\Thumbor\Thumbor;
+
 /**
  * Resize.
  *
- * @see \Beeyev\Thumbor\Thumbor::noResizeOrFit()
+ * @see Thumbor::noResizeOrFit()
  */
 class Resize
 {
-    const ORIG = 'orig';
+    public const ORIG = 'orig';
 }

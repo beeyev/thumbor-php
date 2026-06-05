@@ -1,11 +1,17 @@
 <?php
+
+declare(strict_types=1);
+
+use PhpCsFixer\Config;
+use PhpCsFixer\Finder;
+
 /**
  * This document has been generated with
  * https://mlocati.github.io/php-cs-fixer-configurator/#version:2.19.3|configurator
  *
  * @author Alexander Tebiev - https://github.com/beeyev
  */
-$config = new PhpCsFixer\Config();
+$config = new Config();
 
 return $config
     ->setRiskyAllowed(true)
@@ -17,7 +23,7 @@ return $config
         // Write conditions in Yoda style (`true`), non-Yoda style (`['equal' => false, 'identical' => false, 'less_and_greater' => false]`) or ignore those conditions (`null`) based on configuration.
         'yoda_style' => false,
         // Visibility MUST be declared on all properties and methods; `abstract` and `final` MUST be declared before the visibility; `static` MUST be declared after the visibility.
-        'visibility_required' => ['elements' => ['method', 'property']],
+        'modifier_keywords' => ['elements' => ['method', 'property']],
         // Concatenation should be spaced according configuration.
         'concat_space' => ['spacing' => 'one'],
         // Sorts PHPDoc types.
@@ -32,7 +38,7 @@ return $config
         'phpdoc_no_empty_return' => false,
     ])
     ->setFinder(
-        PhpCsFixer\Finder::create()
+        Finder::create()
             ->ignoreDotFiles(true)
             ->ignoreVCS(true)
             ->ignoreUnreadableDirs()

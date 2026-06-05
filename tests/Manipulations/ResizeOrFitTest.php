@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @author Alexander Tebiev - https://github.com/beeyev
  */
@@ -13,52 +14,53 @@ use Beeyev\Thumbor\Tests\TestCase;
 
 /**
  * @internal
+ *
  * @coversNothing
  */
 final class ResizeOrFitTest extends TestCase
 {
-    public function testItChecksIfResizeOrFitIsWorkingCorrectly()
+    public function testItChecksIfResizeOrFitIsWorkingCorrectly(): void
     {
         $result = (new Thumbor())->resizeOrFit(100)->get('abc.jpg');
-        static::assertSame('unsafe/100x/abc.jpg', $result);
+        self::assertSame('unsafe/100x/abc.jpg', $result);
 
         $result = (new Thumbor())->resizeOrFit(null, 200)->get('abc.jpg');
-        static::assertSame('unsafe/x200/abc.jpg', $result);
+        self::assertSame('unsafe/x200/abc.jpg', $result);
 
         $result = (new Thumbor())->resizeOrFit(100, 200)->get('abc.jpg');
-        static::assertSame('unsafe/100x200/abc.jpg', $result);
+        self::assertSame('unsafe/100x200/abc.jpg', $result);
 
         $result = (new Thumbor())->resizeOrFit(100, 200, Fit::FIT_IN)->get('abc.jpg');
-        static::assertSame('unsafe/fit-in/100x200/abc.jpg', $result);
+        self::assertSame('unsafe/fit-in/100x200/abc.jpg', $result);
 
         $result = (new Thumbor())->resizeOrFit(100, 200, Fit::FULL_FIT_IN)->get('abc.jpg');
-        static::assertSame('unsafe/full-fit-in/100x200/abc.jpg', $result);
+        self::assertSame('unsafe/full-fit-in/100x200/abc.jpg', $result);
 
         $result = (new Thumbor())->resizeOrFit(100, 200, Fit::ADAPTIVE_FIT_IN)->get('abc.jpg');
-        static::assertSame('unsafe/adaptive-fit-in/100x200/abc.jpg', $result);
+        self::assertSame('unsafe/adaptive-fit-in/100x200/abc.jpg', $result);
 
         $result = (new Thumbor())->resizeOrFit(100, 200, Fit::ADAPTIVE_FULL_FIT_IN)->get('abc.jpg');
-        static::assertSame('unsafe/adaptive-full-fit-in/100x200/abc.jpg', $result);
+        self::assertSame('unsafe/adaptive-full-fit-in/100x200/abc.jpg', $result);
 
         $result = (new Thumbor())->resizeOrFit(100, 200, Fit::ADAPTIVE_FULL_FIT_IN)->noResizeOrFit()->get('abc.jpg');
-        static::assertSame('unsafe/abc.jpg', $result);
+        self::assertSame('unsafe/abc.jpg', $result);
     }
 
-    public function testItChecksIfResizeOrFitIsThrowingExceptionWhenBothArgumentsNull()
+    public function testItChecksIfResizeOrFitIsThrowingExceptionWhenBothArgumentsNull(): void
     {
         $this->expectException(ThumborInvalidArgumentException::class);
         $this->expectExceptionMessageMatchesCase('/At least one value/');
         (new Thumbor())->resizeOrFit()->get('abc.jpg');
     }
 
-    public function testItChecksIfResizeOrFitIsThrowingExceptionWhenOneArgumentIsIncorrect()
+    public function testItChecksIfResizeOrFitIsThrowingExceptionWhenOneArgumentIsIncorrect(): void
     {
         $this->expectException(ThumborInvalidArgumentException::class);
         $this->expectExceptionMessageMatchesCase('/One of provided arguments contain incorrect value/');
         (new Thumbor())->resizeOrFit('abc')->get('abc.jpg');
     }
 
-    public function testItChecksIfResizeOrFitIsThrowingExceptionWhenFitParameterIsIncorrect()
+    public function testItChecksIfResizeOrFitIsThrowingExceptionWhenFitParameterIsIncorrect(): void
     {
         $this->expectException(ThumborInvalidArgumentException::class);
         $this->expectExceptionMessageMatchesCase('/Incorrect value/');

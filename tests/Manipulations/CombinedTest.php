@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @author Alexander Tebiev - https://github.com/beeyev
  */
@@ -15,11 +16,12 @@ use Beeyev\Thumbor\Tests\TestCase;
 
 /**
  * @internal
+ *
  * @coversNothing
  */
 final class CombinedTest extends TestCase
 {
-    public function testItChecksIfUrlBuilderWorksCorrectly()
+    public function testItChecksIfUrlBuilderWorksCorrectly(): void
     {
         $expected = 'https://img.example.com/4s1z_Yu1tYN2aQ-VZTg-mU0tMKg=/meta/trim:top-left:55/12x23:24x25/fit-in/11x33/right/bottom/smart/filters:strip_icc():blur(1,abc)/ezhik.jpg';
         $result = (new Thumbor('https://img.example.com/', '31337'))
@@ -35,6 +37,6 @@ final class CombinedTest extends TestCase
             ->imageUrl('ezhik.jpg')
             ->get()
         ;
-        static::assertSame($expected, $result);
+        self::assertSame($expected, $result);
     }
 }
