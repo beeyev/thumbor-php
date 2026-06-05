@@ -19,7 +19,7 @@ jobs:
     name: Code Style
     runs-on: ubuntu-latest
     timeout-minutes: 5
-    if: github.event.pull_request.draft == false
+    if: github.event_name != 'pull_request' || github.event.pull_request.draft == false
     permissions:
       contents: write
       pull-requests: write
@@ -50,12 +50,21 @@ jobs:
           key: php-cs-fixer-cache-${{ github.workflow }}-${{ hashFiles('./.php-cs-fixer.dist.php') }}
 
       - name: PHP CS Fixer
+        if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository
         env:
           PHP_CS_FIXER_IGNORE_ENV: 1
         run: |
           echo ${{ steps.changed-php-files.outputs.all_changed_files }} | xargs --no-run-if-empty php vendor/bin/php-cs-fixer fix --config=.php-cs-fixer.dist.php --diff --ansi
 
+      - name: PHP CS Fixer (check only for forked PRs)
+        if: github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name != github.repository
+        env:
+          PHP_CS_FIXER_IGNORE_ENV: 1
+        run: |
+          echo ${{ steps.changed-php-files.outputs.all_changed_files }} | xargs --no-run-if-empty php vendor/bin/php-cs-fixer fix --config=.php-cs-fixer.dist.php --dry-run --diff --ansi
+
       - name: Commit changed files
+        if: github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository
         uses: peter-evans/create-pull-request@v8
         with:
           add-paths: |
