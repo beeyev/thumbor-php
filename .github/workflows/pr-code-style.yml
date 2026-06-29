@@ -44,7 +44,7 @@ jobs:
             **/*.php
 
       - name: Cache PHP CS Fixer results
-        uses: actions/cache@v3
+        uses: actions/cache@v6
         with:
           path: ./.php-cs-fixer.cache
           key: php-cs-fixer-cache-${{ github.workflow }}-${{ hashFiles('./.php-cs-fixer.dist.php') }}
